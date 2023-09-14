@@ -17,9 +17,19 @@ export default {
     // Whitespaces and comments removal makes the browser bundle lighter
     // while retaining the ability to debug errors
     terser({
-      compress: false,
+      compress: true,
       mangle: false,
-      format: { comments: false },
+      format: {
+        comments: false,
+        indent_level: 2,
+        quote_style: 0,
+        max_line_len: 90,
+        keep_quoted_props: true,
+        keep_numbers: true,
+        semicolons: false,
+        ecma: 2020,
+        beautify: true,
+      },
     }),
   ],
 };
