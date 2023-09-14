@@ -25,6 +25,7 @@ const removeEmptyText = require('./removeEmptyText.js');
 const convertEllipseToCircle = require('./convertEllipseToCircle.js');
 const collapseGroups = require('./collapseGroups.js');
 const convertPathData = require('./convertPathData.js');
+const convertTransform = require('./convertTransform.js');
 const removeEmptyAttrs = require('./removeEmptyAttrs.js');
 const removeEmptyContainers = require('./removeEmptyContainers.js');
 const mergePaths = require('./mergePaths.js');
@@ -43,6 +44,7 @@ const presetSafe = createPreset({
     removeEditorsNSData,
     cleanupAttrs,
     mergeStyles,
+    cleanupIds,
     inlineStyles,
     removeUselessDefs,
     cleanupNumericValues,
@@ -57,6 +59,7 @@ const presetSafe = createPreset({
     convertEllipseToCircle,
     collapseGroups,
     convertPathData,
+    convertTransform,
     removeEmptyAttrs,
     removeEmptyContainers,
     mergePaths,
