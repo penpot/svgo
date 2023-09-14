@@ -1,0 +1,92 @@
+{
+  "name": "svgo",
+  "version": "4.0.0",
+  "description": "SVG files optimizer",
+  "license": "MIT",
+  "homepage": "https://github.com/penpot/svgo",
+  "bugs": {
+    "url": "https://github.com/penpot/svgo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/penpot/svgo.git"
+  },
+  "files": [
+    "src",
+    "dist",
+    "!**/*.test.js"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --maxWorkers=4 --coverage",
+    "lint:run": "eslint --ignore-path .gitignore . && prettier --check \"**/*.js\" --ignore-path .gitignore",
+    "lint:fix": "eslint --ignore-path .gitignore --fix . && prettier --write \"**/*.js\" --ignore-path .gitignore",
+    "test:browser": "rollup -c && node ./test/browser.js",
+    "test:regression": "node ./test/regression-extract.js && NO_DIFF=1 node ./test/regression.js",
+    "build": "rm -rf dist && rollup -c"
+  },
+  "prettier": {
+    "singleQuote": false
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": "2021"
+    },
+    "env": {
+      "node": true,
+      "es2021": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "rollup.config.js"
+        ],
+        "parserOptions": {
+          "sourceType": "module"
+        }
+      },
+      {
+        "files": [
+          "**/*.test.js"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "fixtures"
+    ]
+  },
+  "dependencies": {
+    "@trysound/sax": "0.2.0",
+    "css-select": "^5.1.0",
+    "css-tree": "^2.2.1",
+    "csso": "^5.0.5"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@types/css-tree": "^2.0.0",
+    "@types/csso": "^5.0.0",
+    "@types/jest": "^29.1.1",
+    "del": "^6.0.0",
+    "eslint": "^8.24.0",
+    "jest": "^29.1.2",
+    "node-fetch": "^3.3.2",
+    "pixelmatch": "^5.2.1",
+    "playwright": "^1.38.0",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.0.3",
+    "rollup": "^3.29.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "tar-stream": "^3.1.6"
+  }
+}
