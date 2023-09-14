@@ -1,61 +1,49 @@
 'use strict';
 
-const { visit } = require('./xast.js');
+const { builtin } = require('./builtin.js');
 
-/**
- * Plugins engine.
- *
- * @module plugins
- *
- * @param {Object} ast input ast
- * @param {Object} info extra information
- * @param {Array} plugins plugins object from config
- * @return {Object} output ast
- */
-const invokePlugins = (ast, info, plugins, overrides, globalOverrides) => {
-  for (const plugin of plugins) {
-    const override = overrides == null ? null : overrides[plugin.name];
-    if (override === false) {
-      continue;
-    }
-    const params = { ...plugin.params, ...globalOverrides, ...override };
+const isPlainObject = require("lodash/isPlainObject");
+const isString = require("lodash/isString");
 
-    const visitor = plugin.fn(ast, params, info);
-    if (visitor != null) {
-      visit(ast, visitor);
+const pluginsMap = {};
+for (const plugin of builtin) {
+  pluginsMap[plugin.name] = plugin;
+}
+
+function resolvePlugin(plugin) {
+  if (typeof plugin === 'string') {
+    // resolve builtin plugin specified as string
+    const builtinPlugin = pluginsMap[plugin];
+    if (builtinPlugin == null) {
+      throw Error(`Unknown builtin plugin "${plugin}" specified.`);
     }
+    return {
+      name: plugin,
+      params: {},
+      fn: builtinPlugin.fn,
+    };
   }
-};
-exports.invokePlugins = invokePlugins;
+  if (isPlainObject(plugin)) {
+    if (!isString(plugin.name)) {
+      throw Error(`Plugin name should be specified`);
+    }
+    // use custom plugin implementation
+    let fn = plugin.fn;
+    if (fn == null) {
+      // resolve builtin plugin implementation
+      const builtinPlugin = pluginsMap[plugin.name];
+      if (builtinPlugin == null) {
+        throw Error(`Unknown builtin plugin "${plugin.name}" specified.`);
+      }
+      fn = builtinPlugin.fn;
+    }
+    return {
+      name: plugin.name,
+      params: plugin.params,
+      fn,
+    };
+  }
+  return null;
+}
 
-const createPreset = ({ name, plugins }) => {
-  return {
-    name,
-    fn: (ast, params, info) => {
-      const { floatPrecision, overrides } = params;
-      const globalOverrides = {};
-      if (floatPrecision != null) {
-        globalOverrides.floatPrecision = floatPrecision;
-      }
-      if (overrides) {
-        const pluginNames = plugins.map(({ name }) => name);
-        for (const pluginName of Object.keys(overrides)) {
-          if (!pluginNames.includes(pluginName)) {
-            console.warn(
-              `You are trying to configure ${pluginName} which is not part of ${name}.\n` +
-                `Try to put it before or after, for example\n\n` +
-                `plugins: [\n` +
-                `  {\n` +
-                `    name: '${name}',\n` +
-                `  },\n` +
-                `  '${pluginName}'\n` +
-                `]\n`,
-            );
-          }
-        }
-      }
-      invokePlugins(ast, info, plugins, overrides, globalOverrides);
-    },
-  };
-};
-exports.createPreset = createPreset;
+exports.resolvePlugin = resolvePlugin;

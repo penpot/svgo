@@ -1,6 +1,6 @@
 'use strict';
 
-const { createPreset } = require('../plugins.js');
+const { createPreset } = require('../tools.js');
 
 const removeDoctype = require('./removeDoctype.js');
 const removeXMLProcInst = require('./removeXMLProcInst.js');
@@ -39,7 +39,7 @@ const removeTitle = require('./removeTitle.js');
 const removeDesc = require('./removeDesc.js');
 
 const presetDefault = createPreset({
-  name: 'presetDefault',
+  name: "defaultPreset",
   plugins: [
     removeDoctype,
     removeXMLProcInst,

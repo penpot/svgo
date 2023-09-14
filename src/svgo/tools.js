@@ -1,5 +1,7 @@
 'use strict';
 
+const { visit } = require('./xast.js');
+
 
 /**
  * Encode plain SVG data string into Data URI string.
@@ -113,3 +115,37 @@ const removeLeadingZero = (num) => {
   return strNum;
 };
 exports.removeLeadingZero = removeLeadingZero;
+
+
+function invokePlugins(ast, info, plugins, overrides, globalOverrides) {
+  for (const plugin of plugins) {
+    const override = overrides == null ? null : overrides[plugin.name];
+    if (override === false) {
+      continue;
+    }
+    const params = { ...plugin.params, ...globalOverrides, ...override };
+    const visitor = plugin.fn(ast, params, info);
+    if (visitor != null) {
+      visit(ast, visitor);
+    }
+  }
+};
+
+function createPreset({ name, plugins }) {
+  return {
+    name,
+    fn: (ast, params, info) => {
+      const { floatPrecision, overrides } = params;
+
+      const globalOverrides = {};
+      if (floatPrecision != null) {
+        globalOverrides.floatPrecision = floatPrecision;
+      }
+
+      invokePlugins(ast, info, plugins, overrides, globalOverrides);
+    },
+  };
+}
+
+exports.invokePlugins = invokePlugins;
+exports.createPreset = createPreset;

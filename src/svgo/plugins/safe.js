@@ -1,6 +1,6 @@
 'use strict';
 
-const { createPreset } = require('../plugins.js');
+const { createPreset } = require('../tools.js');
 
 const removeDoctype = require('./removeDoctype.js');
 const removeXMLProcInst = require('./removeXMLProcInst.js');
@@ -22,24 +22,19 @@ const removeViewBox = require('./removeViewBox.js');
 const cleanupEnableBackground = require('./cleanupEnableBackground.js');
 const removeHiddenElems = require('./removeHiddenElems.js');
 const removeEmptyText = require('./removeEmptyText.js');
-const convertShapeToPath = require('./convertShapeToPath.js');
 const convertEllipseToCircle = require('./convertEllipseToCircle.js');
-const moveElemsAttrsToGroup = require('./moveElemsAttrsToGroup.js');
-const moveGroupAttrsToElems = require('./moveGroupAttrsToElems.js');
 const collapseGroups = require('./collapseGroups.js');
 const convertPathData = require('./convertPathData.js');
-const convertTransform = require('./convertTransform.js');
 const removeEmptyAttrs = require('./removeEmptyAttrs.js');
 const removeEmptyContainers = require('./removeEmptyContainers.js');
 const mergePaths = require('./mergePaths.js');
 const removeUnusedNS = require('./removeUnusedNS.js');
-const sortAttrs = require('./sortAttrs.js');
 const sortDefsChildren = require('./sortDefsChildren.js');
 const removeTitle = require('./removeTitle.js');
 const removeDesc = require('./removeDesc.js');
 
 const presetSafe = createPreset({
-  name: 'presetSafe',
+  name: 'safePreset',
   plugins: [
     removeDoctype,
     removeXMLProcInst,
@@ -49,8 +44,6 @@ const presetSafe = createPreset({
     cleanupAttrs,
     mergeStyles,
     inlineStyles,
-    minifyStyles,
-    cleanupIds,
     removeUselessDefs,
     cleanupNumericValues,
     convertColors,
@@ -61,18 +54,13 @@ const presetSafe = createPreset({
     cleanupEnableBackground,
     removeHiddenElems,
     removeEmptyText,
-    convertShapeToPath,
     convertEllipseToCircle,
-    moveElemsAttrsToGroup,
-    moveGroupAttrsToElems,
     collapseGroups,
     convertPathData,
-    convertTransform,
     removeEmptyAttrs,
     removeEmptyContainers,
     mergePaths,
     removeUnusedNS,
-    sortAttrs,
     sortDefsChildren,
     removeTitle,
     removeDesc,
