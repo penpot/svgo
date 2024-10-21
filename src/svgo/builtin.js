@@ -3,6 +3,7 @@
 exports.builtin = [
   require('./plugins/default.js'),
   require('./plugins/safe.js'),
+  require('./plugins/safeAndFast.js'),
   require('./plugins/addAttributesToSVGElement.js'),
   require('./plugins/addClassesToSVGElement.js'),
   require('./plugins/cleanupAttrs.js'),

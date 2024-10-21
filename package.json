@@ -20,68 +20,17 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --maxWorkers=4 --coverage",
-    "lint:run": "eslint --ignore-path .gitignore . && prettier --check \"**/*.js\" --ignore-path .gitignore",
-    "lint:fix": "eslint --ignore-path .gitignore --fix . && prettier --write \"**/*.js\" --ignore-path .gitignore",
-    "test:browser": "rollup -c && node ./test/browser.js",
-    "test:regression": "node ./test/regression-extract.js && NO_DIFF=1 node ./test/regression.js",
-    "build": "browserify -s penpotSvgo ./src/svgo.js > dist/svgo.js"
-  },
-  "prettier": {
-    "singleQuote": false
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": "2021"
-    },
-    "env": {
-      "node": true,
-      "es2021": true
-    },
-    "extends": [
-      "eslint:recommended"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "rollup.config.js"
-        ],
-        "parserOptions": {
-          "sourceType": "module"
-        }
-      },
-      {
-        "files": [
-          "**/*.test.js"
-        ],
-        "env": {
-          "jest": true
-        }
-      }
-    ]
-  },
-  "jest": {
-    "coveragePathIgnorePatterns": [
-      "fixtures"
-    ]
+    "build:browser": "esbuild --minify --bundle --platform=browser --format=esm --target=es2021 src/svgo.js --outfile=dist/svgo.js",
+    "build:node": "esbuild  --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js"
   },
   "dependencies": {
     "@trysound/sax": "0.2.0",
     "css-select": "^5.1.0",
-    "css-tree": "^2.2.1",
+    "css-tree": "^3.0.0",
     "csso": "^5.0.5",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "browserify": "^17.0.0",
-    "del": "^6.0.0",
-    "eslint": "^8.24.0",
-    "jest": "^29.1.2",
-    "node-fetch": "^3.3.2",
-    "pixelmatch": "^5.2.1",
-    "playwright": "^1.38.0",
-    "pngjs": "^7.0.0",
-    "prettier": "^3.0.3",
-    "tar-stream": "^3.1.6"
+    "esbuild": "^0.24.0"
   }
 }

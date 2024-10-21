@@ -56,3 +56,8 @@ const optimize = (input, config) => {
 };
 
 exports.optimize = optimize;
+
+const defaultOptions = {plugins: ['safeAndFastPreset']};
+
+exports.defaultOptions = defaultOptions;
+
