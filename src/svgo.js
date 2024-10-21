@@ -57,7 +57,10 @@ const optimize = (input, config) => {
 
 exports.optimize = optimize;
 
-const defaultOptions = {plugins: ['safeAndFastPreset']};
+const defaultOptions = {
+  multipass: false,
+  plugins: ['safeAndFastPreset']
+};
 
 exports.defaultOptions = defaultOptions;
 
