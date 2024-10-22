@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git://github.com/penpot/svgo.git"
   },
+  "main": "src/svgo.js",
   "files": [
     "src",
     "dist",
