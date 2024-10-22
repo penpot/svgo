@@ -2,51 +2,6 @@
 
 const { visit } = require('./xast.js');
 
-
-/**
- * Encode plain SVG data string into Data URI string.
- */
-exports.encodeSVGDatauri = (str, type) => {
-  var prefix = 'data:image/svg+xml';
-  if (!type || type === 'base64') {
-    // base64
-    prefix += ';base64,';
-    str = prefix + Buffer.from(str).toString('base64');
-  } else if (type === 'enc') {
-    // URI encoded
-    str = prefix + ',' + encodeURIComponent(str);
-  } else if (type === 'unenc') {
-    // unencoded
-    str = prefix + ',' + str;
-  }
-  return str;
-};
-
-/**
- * Decode SVG Data URI string into plain SVG string.
- */
-exports.decodeSVGDatauri = (str) => {
-  var regexp = /data:image\/svg\+xml(;charset=[^;,]*)?(;base64)?,(.*)/;
-  var match = regexp.exec(str);
-
-  // plain string
-  if (!match) return str;
-
-  var data = match[3];
-
-  if (match[2]) {
-    // base64
-    str = Buffer.from(data, 'base64').toString('utf8');
-  } else if (data.charAt(0) === '%') {
-    // URI encoded
-    str = decodeURIComponent(data);
-  } else if (data.charAt(0) === '<') {
-    // unencoded
-    str = data;
-  }
-  return str;
-};
-
 /**
  * Convert a row of numbers to an optimized string view.
  *

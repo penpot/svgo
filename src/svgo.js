@@ -3,7 +3,7 @@
 const { parseSvg } = require('./svgo/parser.js');
 const { stringifySvg } = require('./svgo/stringifier.js');
 const { resolvePlugin } = require('./svgo/plugins.js');
-const { encodeSVGDatauri, invokePlugins } = require('./svgo/tools.js');
+const { invokePlugins } = require('./svgo/tools.js');
 
 const isPlainObject = require("lodash/isPlainObject");
 
@@ -46,10 +46,6 @@ const optimize = (input, config) => {
     } else {
       break;
     }
-  }
-
-  if (config.datauri) {
-    output = encodeSVGDatauri(output, config.datauri);
   }
 
   return output;

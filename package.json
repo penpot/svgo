@@ -20,7 +20,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build:browser": "browserify -s penpotSvgo ./src/svgo.js > dist/svgo.js && terser --compress -- dist/svgo.js > dist/svgo.min.js",
+    "build:browser": "esbuild --minify --bundle --platform=browser --global-name=penpotSvgo --format=iife --target=es2021 src/svgo.js --outfile=dist/svgo.js",
     "build:node": "esbuild --minify --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js"
   },
   "dependencies": {
@@ -31,8 +31,6 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "browserify": "^17.0.1",
-    "esbuild": "^0.24.0",
-    "terser": "^5.36.0"
+    "esbuild": "^0.24.0"
   }
 }
