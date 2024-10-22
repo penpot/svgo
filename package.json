@@ -20,8 +20,8 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build:browser": "esbuild --minify --bundle --platform=browser --format=esm --target=es2021 src/svgo.js --outfile=dist/svgo.js",
-    "build:node": "esbuild  --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js"
+    "build:browser": "browserify -s penpotSvgo ./src/svgo.js > dist/svgo.js && terser --compress -- dist/svgo.js > dist/svgo.min.js",
+    "build:node": "esbuild --minify --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js"
   },
   "dependencies": {
     "@trysound/sax": "0.2.0",
@@ -31,6 +31,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "esbuild": "^0.24.0"
+    "browserify": "^17.0.1",
+    "esbuild": "^0.24.0",
+    "terser": "^5.36.0"
   }
 }
