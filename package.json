@@ -12,6 +12,7 @@
     "url": "git://github.com/penpot/svgo.git"
   },
   "main": "src/svgo.js",
+  "module": "dist/svgo.mjs",
   "files": [
     "src",
     "dist",
@@ -21,7 +22,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build:browser": "esbuild --minify --bundle --platform=browser --global-name=penpotSvgo --format=iife --target=es2021 src/svgo.js --outfile=dist/svgo.js",
+    "build": "esbuild --bundle --sourcemap --platform=browser --format=esm --target=es2021 src/svgo.js --outfile=dist/svgo.mjs",
     "build:node": "esbuild --minify --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js"
   },
   "dependencies": {
