@@ -29,9 +29,11 @@ const removeUnusedNS = require('./removeUnusedNS.js');
 const sortDefsChildren = require('./sortDefsChildren.js');
 const removeTitle = require('./removeTitle.js');
 const removeDesc = require('./removeDesc.js');
+const inlineStyles = require('./inlineStyles.js');
 
 const presetSafe = createPreset({
   name: 'safeAndFastPreset',
+  multipass: true,
   plugins: [
     removeDoctype,
     removeXMLProcInst,
@@ -57,6 +59,12 @@ const presetSafe = createPreset({
     removeUnusedNS,
     removeTitle,
     removeDesc,
+    {
+      ...inlineStyles,
+      params: {
+        onlyMatchedOnce: false,
+      },
+    },
   ],
 });
 

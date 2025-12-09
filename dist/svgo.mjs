@@ -5454,20 +5454,22 @@ var require_stringify = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.innerText = exports.textContent = exports.getText = exports.getInnerHTML = exports.getOuterHTML = void 0;
+    exports.getOuterHTML = getOuterHTML;
+    exports.getInnerHTML = getInnerHTML;
+    exports.getText = getText;
+    exports.textContent = textContent;
+    exports.innerText = innerText;
     var domhandler_1 = require_lib2();
     var dom_serializer_1 = __importDefault(require_lib4());
     var domelementtype_1 = require_lib();
     function getOuterHTML(node, options) {
       return (0, dom_serializer_1.default)(node, options);
     }
-    exports.getOuterHTML = getOuterHTML;
     function getInnerHTML(node, options) {
       return (0, domhandler_1.hasChildren)(node) ? node.children.map(function(node2) {
         return getOuterHTML(node2, options);
       }).join("") : "";
     }
-    exports.getInnerHTML = getInnerHTML;
     function getText(node) {
       if (Array.isArray(node))
         return node.map(getText).join("");
@@ -5479,7 +5481,6 @@ var require_stringify = __commonJS({
         return node.data;
       return "";
     }
-    exports.getText = getText;
     function textContent(node) {
       if (Array.isArray(node))
         return node.map(textContent).join("");
@@ -5490,7 +5491,6 @@ var require_stringify = __commonJS({
         return node.data;
       return "";
     }
-    exports.textContent = textContent;
     function innerText(node) {
       if (Array.isArray(node))
         return node.map(innerText).join("");
@@ -5501,7 +5501,6 @@ var require_stringify = __commonJS({
         return node.data;
       return "";
     }
-    exports.innerText = innerText;
   }
 });
 
@@ -5510,16 +5509,21 @@ var require_traversal = __commonJS({
   "node_modules/domutils/lib/traversal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.prevElementSibling = exports.nextElementSibling = exports.getName = exports.hasAttrib = exports.getAttributeValue = exports.getSiblings = exports.getParent = exports.getChildren = void 0;
+    exports.getChildren = getChildren;
+    exports.getParent = getParent;
+    exports.getSiblings = getSiblings;
+    exports.getAttributeValue = getAttributeValue;
+    exports.hasAttrib = hasAttrib;
+    exports.getName = getName;
+    exports.nextElementSibling = nextElementSibling;
+    exports.prevElementSibling = prevElementSibling;
     var domhandler_1 = require_lib2();
     function getChildren(elem) {
       return (0, domhandler_1.hasChildren)(elem) ? elem.children : [];
     }
-    exports.getChildren = getChildren;
     function getParent(elem) {
       return elem.parent || null;
     }
-    exports.getParent = getParent;
     function getSiblings(elem) {
       var _a, _b;
       var parent = getParent(elem);
@@ -5537,20 +5541,16 @@ var require_traversal = __commonJS({
       }
       return siblings;
     }
-    exports.getSiblings = getSiblings;
     function getAttributeValue(elem, name) {
       var _a;
       return (_a = elem.attribs) === null || _a === void 0 ? void 0 : _a[name];
     }
-    exports.getAttributeValue = getAttributeValue;
     function hasAttrib(elem, name) {
       return elem.attribs != null && Object.prototype.hasOwnProperty.call(elem.attribs, name) && elem.attribs[name] != null;
     }
-    exports.hasAttrib = hasAttrib;
     function getName(elem) {
       return elem.name;
     }
-    exports.getName = getName;
     function nextElementSibling(elem) {
       var _a;
       var next = elem.next;
@@ -5558,7 +5558,6 @@ var require_traversal = __commonJS({
         _a = next, next = _a.next;
       return next;
     }
-    exports.nextElementSibling = nextElementSibling;
     function prevElementSibling(elem) {
       var _a;
       var prev = elem.prev;
@@ -5566,7 +5565,6 @@ var require_traversal = __commonJS({
         _a = prev, prev = _a.prev;
       return prev;
     }
-    exports.prevElementSibling = prevElementSibling;
   }
 });
 
@@ -5575,7 +5573,12 @@ var require_manipulation = __commonJS({
   "node_modules/domutils/lib/manipulation.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.prepend = exports.prependChild = exports.append = exports.appendChild = exports.replaceElement = exports.removeElement = void 0;
+    exports.removeElement = removeElement;
+    exports.replaceElement = replaceElement;
+    exports.appendChild = appendChild;
+    exports.append = append;
+    exports.prependChild = prependChild;
+    exports.prepend = prepend;
     function removeElement(elem) {
       if (elem.prev)
         elem.prev.next = elem.next;
@@ -5592,7 +5595,6 @@ var require_manipulation = __commonJS({
       elem.prev = null;
       elem.parent = null;
     }
-    exports.removeElement = removeElement;
     function replaceElement(elem, replacement) {
       var prev = replacement.prev = elem.prev;
       if (prev) {
@@ -5609,7 +5611,6 @@ var require_manipulation = __commonJS({
         elem.parent = null;
       }
     }
-    exports.replaceElement = replaceElement;
     function appendChild(parent, child) {
       removeElement(child);
       child.next = null;
@@ -5622,7 +5623,6 @@ var require_manipulation = __commonJS({
         child.prev = null;
       }
     }
-    exports.appendChild = appendChild;
     function append(elem, next) {
       removeElement(next);
       var parent = elem.parent;
@@ -5641,7 +5641,6 @@ var require_manipulation = __commonJS({
         parent.children.push(next);
       }
     }
-    exports.append = append;
     function prependChild(parent, child) {
       removeElement(child);
       child.parent = parent;
@@ -5654,7 +5653,6 @@ var require_manipulation = __commonJS({
         child.next = null;
       }
     }
-    exports.prependChild = prependChild;
     function prepend(elem, prev) {
       removeElement(prev);
       var parent = elem.parent;
@@ -5670,7 +5668,6 @@ var require_manipulation = __commonJS({
       prev.next = elem;
       elem.prev = prev;
     }
-    exports.prepend = prepend;
   }
 });
 
@@ -5679,7 +5676,12 @@ var require_querying = __commonJS({
   "node_modules/domutils/lib/querying.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.findAll = exports.existsOne = exports.findOne = exports.findOneChild = exports.find = exports.filter = void 0;
+    exports.filter = filter;
+    exports.find = find;
+    exports.findOneChild = findOneChild;
+    exports.findOne = findOne;
+    exports.existsOne = existsOne;
+    exports.findAll = findAll;
     var domhandler_1 = require_lib2();
     function filter(test, node, recurse, limit) {
       if (recurse === void 0) {
@@ -5690,10 +5692,9 @@ var require_querying = __commonJS({
       }
       return find(test, Array.isArray(node) ? node : [node], recurse, limit);
     }
-    exports.filter = filter;
     function find(test, nodes, recurse, limit) {
       var result = [];
-      var nodeStack = [nodes];
+      var nodeStack = [Array.isArray(nodes) ? nodes : [nodes]];
       var indexStack = [0];
       for (; ; ) {
         if (indexStack[0] >= nodeStack[0].length) {
@@ -5716,38 +5717,35 @@ var require_querying = __commonJS({
         }
       }
     }
-    exports.find = find;
     function findOneChild(test, nodes) {
       return nodes.find(test);
     }
-    exports.findOneChild = findOneChild;
     function findOne(test, nodes, recurse) {
       if (recurse === void 0) {
         recurse = true;
       }
-      var elem = null;
-      for (var i = 0; i < nodes.length && !elem; i++) {
-        var node = nodes[i];
-        if (!(0, domhandler_1.isTag)(node)) {
-          continue;
-        } else if (test(node)) {
-          elem = node;
-        } else if (recurse && node.children.length > 0) {
-          elem = findOne(test, node.children, true);
+      var searchedNodes = Array.isArray(nodes) ? nodes : [nodes];
+      for (var i = 0; i < searchedNodes.length; i++) {
+        var node = searchedNodes[i];
+        if ((0, domhandler_1.isTag)(node) && test(node)) {
+          return node;
+        }
+        if (recurse && (0, domhandler_1.hasChildren)(node) && node.children.length > 0) {
+          var found = findOne(test, node.children, true);
+          if (found)
+            return found;
         }
       }
-      return elem;
+      return null;
     }
-    exports.findOne = findOne;
     function existsOne(test, nodes) {
-      return nodes.some(function(checked) {
-        return (0, domhandler_1.isTag)(checked) && (test(checked) || existsOne(test, checked.children));
+      return (Array.isArray(nodes) ? nodes : [nodes]).some(function(node) {
+        return (0, domhandler_1.isTag)(node) && test(node) || (0, domhandler_1.hasChildren)(node) && existsOne(test, node.children);
       });
     }
-    exports.existsOne = existsOne;
     function findAll(test, nodes) {
       var result = [];
-      var nodeStack = [nodes];
+      var nodeStack = [Array.isArray(nodes) ? nodes : [nodes]];
       var indexStack = [0];
       for (; ; ) {
         if (indexStack[0] >= nodeStack[0].length) {
@@ -5759,17 +5757,14 @@ var require_querying = __commonJS({
           continue;
         }
         var elem = nodeStack[0][indexStack[0]++];
-        if (!(0, domhandler_1.isTag)(elem))
-          continue;
-        if (test(elem))
+        if ((0, domhandler_1.isTag)(elem) && test(elem))
           result.push(elem);
-        if (elem.children.length > 0) {
+        if ((0, domhandler_1.hasChildren)(elem) && elem.children.length > 0) {
           indexStack.unshift(0);
           nodeStack.unshift(elem.children);
         }
       }
     }
-    exports.findAll = findAll;
   }
 });
 
@@ -5778,7 +5773,12 @@ var require_legacy = __commonJS({
   "node_modules/domutils/lib/legacy.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.getElementsByTagType = exports.getElementsByTagName = exports.getElementById = exports.getElements = exports.testElement = void 0;
+    exports.testElement = testElement;
+    exports.getElements = getElements;
+    exports.getElementById = getElementById;
+    exports.getElementsByTagName = getElementsByTagName;
+    exports.getElementsByClassName = getElementsByClassName;
+    exports.getElementsByTagType = getElementsByTagType;
     var domhandler_1 = require_lib2();
     var querying_js_1 = require_querying();
     var Checks = {
@@ -5841,7 +5841,6 @@ var require_legacy = __commonJS({
       var test = compileTest(options);
       return test ? test(node) : true;
     }
-    exports.testElement = testElement;
     function getElements(options, nodes, recurse, limit) {
       if (limit === void 0) {
         limit = Infinity;
@@ -5849,7 +5848,6 @@ var require_legacy = __commonJS({
       var test = compileTest(options);
       return test ? (0, querying_js_1.filter)(test, nodes, recurse, limit) : [];
     }
-    exports.getElements = getElements;
     function getElementById(id, nodes, recurse) {
       if (recurse === void 0) {
         recurse = true;
@@ -5858,7 +5856,6 @@ var require_legacy = __commonJS({
         nodes = [nodes];
       return (0, querying_js_1.findOne)(getAttribCheck("id", id), nodes, recurse);
     }
-    exports.getElementById = getElementById;
     function getElementsByTagName(tagName, nodes, recurse, limit) {
       if (recurse === void 0) {
         recurse = true;
@@ -5868,7 +5865,15 @@ var require_legacy = __commonJS({
       }
       return (0, querying_js_1.filter)(Checks["tag_name"](tagName), nodes, recurse, limit);
     }
-    exports.getElementsByTagName = getElementsByTagName;
+    function getElementsByClassName(className, nodes, recurse, limit) {
+      if (recurse === void 0) {
+        recurse = true;
+      }
+      if (limit === void 0) {
+        limit = Infinity;
+      }
+      return (0, querying_js_1.filter)(getAttribCheck("class", className), nodes, recurse, limit);
+    }
     function getElementsByTagType(type, nodes, recurse, limit) {
       if (recurse === void 0) {
         recurse = true;
@@ -5878,7 +5883,6 @@ var require_legacy = __commonJS({
       }
       return (0, querying_js_1.filter)(Checks["tag_type"](type), nodes, recurse, limit);
     }
-    exports.getElementsByTagType = getElementsByTagType;
   }
 });
 
@@ -5887,7 +5891,10 @@ var require_helpers = __commonJS({
   "node_modules/domutils/lib/helpers.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.uniqueSort = exports.compareDocumentPosition = exports.DocumentPosition = exports.removeSubsets = void 0;
+    exports.DocumentPosition = void 0;
+    exports.removeSubsets = removeSubsets;
+    exports.compareDocumentPosition = compareDocumentPosition;
+    exports.uniqueSort = uniqueSort;
     var domhandler_1 = require_lib2();
     function removeSubsets(nodes) {
       var idx = nodes.length;
@@ -5906,7 +5913,6 @@ var require_helpers = __commonJS({
       }
       return nodes;
     }
-    exports.removeSubsets = removeSubsets;
     var DocumentPosition;
     (function(DocumentPosition2) {
       DocumentPosition2[DocumentPosition2["DISCONNECTED"] = 1] = "DISCONNECTED";
@@ -5914,7 +5920,7 @@ var require_helpers = __commonJS({
       DocumentPosition2[DocumentPosition2["FOLLOWING"] = 4] = "FOLLOWING";
       DocumentPosition2[DocumentPosition2["CONTAINS"] = 8] = "CONTAINS";
       DocumentPosition2[DocumentPosition2["CONTAINED_BY"] = 16] = "CONTAINED_BY";
-    })(DocumentPosition = exports.DocumentPosition || (exports.DocumentPosition = {}));
+    })(DocumentPosition || (exports.DocumentPosition = DocumentPosition = {}));
     function compareDocumentPosition(nodeA, nodeB) {
       var aParents = [];
       var bParents = [];
@@ -5954,7 +5960,6 @@ var require_helpers = __commonJS({
       }
       return DocumentPosition.PRECEDING;
     }
-    exports.compareDocumentPosition = compareDocumentPosition;
     function uniqueSort(nodes) {
       nodes = nodes.filter(function(node, i, arr) {
         return !arr.includes(node, i + 1);
@@ -5970,7 +5975,6 @@ var require_helpers = __commonJS({
       });
       return nodes;
     }
-    exports.uniqueSort = uniqueSort;
   }
 });
 
@@ -5979,14 +5983,13 @@ var require_feeds = __commonJS({
   "node_modules/domutils/lib/feeds.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.getFeed = void 0;
+    exports.getFeed = getFeed;
     var stringify_js_1 = require_stringify();
     var legacy_js_1 = require_legacy();
     function getFeed(doc) {
       var feedRoot = getOneElement(isValidFeed, doc);
       return !feedRoot ? null : feedRoot.name === "feed" ? getAtomFeed(feedRoot) : getRssFeed(feedRoot);
     }
-    exports.getFeed = getFeed;
     function getAtomFeed(feedRoot) {
       var _a;
       var childs = feedRoot.children;
@@ -8903,12 +8906,12 @@ var require_OffsetToLocation = __commonJS({
       host.computed = true;
     }
     var OffsetToLocation = class {
-      constructor() {
+      constructor(source, startOffset, startLine, startColumn) {
+        this.setSource(source, startOffset, startLine, startColumn);
         this.lines = null;
         this.columns = null;
-        this.computed = false;
       }
-      setSource(source, startOffset = 0, startLine = 1, startColumn = 1) {
+      setSource(source = "", startOffset = 0, startLine = 1, startColumn = 1) {
         this.source = source;
         this.startOffset = startOffset;
         this.startLine = startLine;
@@ -8959,12 +8962,14 @@ var require_TokenStream = __commonJS({
     var types = require_types2();
     var OFFSET_MASK = 16777215;
     var TYPE_SHIFT = 24;
-    var balancePair = /* @__PURE__ */ new Map([
-      [types.Function, types.RightParenthesis],
-      [types.LeftParenthesis, types.RightParenthesis],
-      [types.LeftSquareBracket, types.RightSquareBracket],
-      [types.LeftCurlyBracket, types.RightCurlyBracket]
-    ]);
+    var balancePair = new Uint8Array(32);
+    balancePair[types.Function] = types.RightParenthesis;
+    balancePair[types.LeftParenthesis] = types.RightParenthesis;
+    balancePair[types.LeftSquareBracket] = types.RightSquareBracket;
+    balancePair[types.LeftCurlyBracket] = types.RightCurlyBracket;
+    function isBlockOpenerToken(tokenType) {
+      return balancePair[tokenType] !== 0;
+    }
     var TokenStream = class {
       constructor(source, tokenize) {
         this.setSource(source, tokenize);
@@ -8983,50 +8988,41 @@ var require_TokenStream = __commonJS({
         const offsetAndType = adoptBuffer.adoptBuffer(this.offsetAndType, source.length + 1);
         const balance = adoptBuffer.adoptBuffer(this.balance, source.length + 1);
         let tokenCount = 0;
-        let balanceCloseType = 0;
-        let balanceStart = 0;
         let firstCharOffset = -1;
+        let balanceCloseType = 0;
+        let balanceStart = source.length;
         this.offsetAndType = null;
         this.balance = null;
+        balance.fill(0);
         tokenize(source, (type, start, end) => {
-          switch (type) {
-            default:
-              balance[tokenCount] = sourceLength;
-              break;
-            case balanceCloseType: {
-              let balancePrev = balanceStart & OFFSET_MASK;
-              balanceStart = balance[balancePrev];
-              balanceCloseType = balanceStart >> TYPE_SHIFT;
-              balance[tokenCount] = balancePrev;
-              balance[balancePrev++] = tokenCount;
-              for (; balancePrev < tokenCount; balancePrev++) {
-                if (balance[balancePrev] === sourceLength) {
-                  balance[balancePrev] = tokenCount;
-                }
-              }
-              break;
-            }
-            case types.LeftParenthesis:
-            case types.Function:
-            case types.LeftSquareBracket:
-            case types.LeftCurlyBracket:
-              balance[tokenCount] = balanceStart;
-              balanceCloseType = balancePair.get(type);
-              balanceStart = balanceCloseType << TYPE_SHIFT | tokenCount;
-              break;
-          }
-          offsetAndType[tokenCount++] = type << TYPE_SHIFT | end;
+          const index = tokenCount++;
+          offsetAndType[index] = type << TYPE_SHIFT | end;
           if (firstCharOffset === -1) {
             firstCharOffset = start;
           }
+          balance[index] = balanceStart;
+          if (type === balanceCloseType) {
+            const prevBalanceStart = balance[balanceStart];
+            balance[balanceStart] = index;
+            balanceStart = prevBalanceStart;
+            balanceCloseType = balancePair[offsetAndType[prevBalanceStart] >> TYPE_SHIFT];
+          } else if (isBlockOpenerToken(type)) {
+            balanceStart = index;
+            balanceCloseType = balancePair[type];
+          }
         });
         offsetAndType[tokenCount] = types.EOF << TYPE_SHIFT | sourceLength;
-        balance[tokenCount] = sourceLength;
-        balance[sourceLength] = sourceLength;
-        while (balanceStart !== 0) {
-          const balancePrev = balanceStart & OFFSET_MASK;
-          balanceStart = balance[balancePrev];
-          balance[balancePrev] = sourceLength;
+        balance[tokenCount] = tokenCount;
+        for (let i = 0; i < tokenCount; i++) {
+          const balanceStart2 = balance[i];
+          if (balanceStart2 <= i) {
+            const balanceEnd = balance[balanceStart2];
+            if (balanceEnd !== i) {
+              balance[i] = balanceEnd;
+            }
+          } else if (balanceStart2 > tokenCount) {
+            balance[i] = tokenCount;
+          }
         }
         this.source = source;
         this.firstCharOffset = firstCharOffset === -1 ? 0 : firstCharOffset;
@@ -9140,8 +9136,8 @@ var require_TokenStream = __commonJS({
       }
       skipUntilBalanced(startToken, stopConsume) {
         let cursor = startToken;
-        let balanceEnd;
-        let offset;
+        let balanceEnd = 0;
+        let offset = 0;
         loop:
           for (; cursor < this.tokenCount; cursor++) {
             balanceEnd = this.balance[cursor];
@@ -9156,7 +9152,7 @@ var require_TokenStream = __commonJS({
                 cursor++;
                 break loop;
               default:
-                if (this.balance[balanceEnd] === cursor) {
+                if (isBlockOpenerToken(this.offsetAndType[cursor] >> TYPE_SHIFT)) {
                   cursor = balanceEnd;
                 }
             }
@@ -10907,18 +10903,19 @@ var require_source_map_generator = __commonJS({
       this._file = util.getArg(aArgs, "file", null);
       this._sourceRoot = util.getArg(aArgs, "sourceRoot", null);
       this._skipValidation = util.getArg(aArgs, "skipValidation", false);
+      this._ignoreInvalidMapping = util.getArg(aArgs, "ignoreInvalidMapping", false);
       this._sources = new ArraySet();
       this._names = new ArraySet();
       this._mappings = new MappingList();
       this._sourcesContents = null;
     }
     SourceMapGenerator.prototype._version = 3;
-    SourceMapGenerator.fromSourceMap = function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
+    SourceMapGenerator.fromSourceMap = function SourceMapGenerator_fromSourceMap(aSourceMapConsumer, generatorOps) {
       var sourceRoot = aSourceMapConsumer.sourceRoot;
-      var generator = new SourceMapGenerator({
+      var generator = new SourceMapGenerator(Object.assign(generatorOps || {}, {
         file: aSourceMapConsumer.file,
         sourceRoot
-      });
+      }));
       aSourceMapConsumer.eachMapping(function(mapping) {
         var newMapping = {
           generated: {
@@ -10962,7 +10959,9 @@ var require_source_map_generator = __commonJS({
       var source = util.getArg(aArgs, "source", null);
       var name = util.getArg(aArgs, "name", null);
       if (!this._skipValidation) {
-        this._validateMapping(generated, original, source, name);
+        if (this._validateMapping(generated, original, source, name) === false) {
+          return;
+        }
       }
       if (source != null) {
         source = String(source);
@@ -11065,21 +11064,35 @@ var require_source_map_generator = __commonJS({
     };
     SourceMapGenerator.prototype._validateMapping = function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource, aName) {
       if (aOriginal && typeof aOriginal.line !== "number" && typeof aOriginal.column !== "number") {
-        throw new Error(
-          "original.line and original.column are not numbers -- you probably meant to omit the original mapping entirely and only map the generated position. If so, pass null for the original mapping instead of an object with empty or null values."
-        );
+        var message = "original.line and original.column are not numbers -- you probably meant to omit the original mapping entirely and only map the generated position. If so, pass null for the original mapping instead of an object with empty or null values.";
+        if (this._ignoreInvalidMapping) {
+          if (typeof console !== "undefined" && console.warn) {
+            console.warn(message);
+          }
+          return false;
+        } else {
+          throw new Error(message);
+        }
       }
       if (aGenerated && "line" in aGenerated && "column" in aGenerated && aGenerated.line > 0 && aGenerated.column >= 0 && !aOriginal && !aSource && !aName) {
         return;
       } else if (aGenerated && "line" in aGenerated && "column" in aGenerated && aOriginal && "line" in aOriginal && "column" in aOriginal && aGenerated.line > 0 && aGenerated.column >= 0 && aOriginal.line > 0 && aOriginal.column >= 0 && aSource) {
         return;
       } else {
-        throw new Error("Invalid mapping: " + JSON.stringify({
+        var message = "Invalid mapping: " + JSON.stringify({
           generated: aGenerated,
           source: aSource,
           original: aOriginal,
           name: aName
-        }));
+        });
+        if (this._ignoreInvalidMapping) {
+          if (typeof console !== "undefined" && console.warn) {
+            console.warn(message);
+          }
+          return false;
+        } else {
+          throw new Error(message);
+        }
       }
     };
     SourceMapGenerator.prototype._serializeMappings = function SourceMapGenerator_serializeMappings() {
@@ -11800,6 +11813,9 @@ var require_generate = __commonJS({
           break;
         case "Multiplier":
           return internalGenerate(node.term, decorate, forceBraces, compact) + decorate(generateMultiplier(node), node);
+        case "Boolean":
+          result = "<boolean-expr[" + internalGenerate(node.term, decorate, forceBraces, compact) + "]>";
+          break;
         case "Type":
           result = "<" + node.name + (node.opts ? decorate(generateTypeOpts(node.opts), node.opts) : "") + ">";
           break;
@@ -12315,8 +12331,8 @@ var require_generic = __commonJS({
     var genericConst = require_generic_const();
     var genericAnPlusB = require_generic_an_plus_b();
     var genericUrange = require_generic_urange();
-    var types = require_types2();
     var charCodeDefinitions = require_char_code_definitions();
+    var types = require_types2();
     var utils = require_utils();
     var calcFunctionNames = ["calc(", "-moz-calc(", "-webkit-calc("];
     var balancePair = /* @__PURE__ */ new Map([
@@ -12857,9 +12873,9 @@ var require_SyntaxError2 = __commonJS({
   }
 });
 
-// node_modules/css-tree/cjs/definition-syntax/tokenizer.cjs
-var require_tokenizer2 = __commonJS({
-  "node_modules/css-tree/cjs/definition-syntax/tokenizer.cjs"(exports) {
+// node_modules/css-tree/cjs/definition-syntax/scanner.cjs
+var require_scanner = __commonJS({
+  "node_modules/css-tree/cjs/definition-syntax/scanner.cjs"(exports) {
     "use strict";
     var SyntaxError2 = require_SyntaxError2();
     var TAB = 9;
@@ -12867,7 +12883,10 @@ var require_tokenizer2 = __commonJS({
     var F = 12;
     var R = 13;
     var SPACE = 32;
-    var Tokenizer = class {
+    var NAME_CHAR = new Uint8Array(128).map(
+      (_, idx) => /[a-zA-Z0-9\-]/.test(String.fromCharCode(idx)) ? 1 : 0
+    );
+    var Scanner = class {
       constructor(str) {
         this.str = str;
         this.pos = 0;
@@ -12877,6 +12896,9 @@ var require_tokenizer2 = __commonJS({
       }
       charCode() {
         return this.charCodeAt(this.pos);
+      }
+      isNameCharCode(code = this.charCode()) {
+        return code < 128 && NAME_CHAR[code] === 1;
       }
       nextCharCode() {
         return this.charCodeAt(this.pos + 1);
@@ -12911,8 +12933,45 @@ var require_tokenizer2 = __commonJS({
       error(message) {
         throw new SyntaxError2.SyntaxError(message, this.str, this.pos);
       }
+      scanSpaces() {
+        return this.substringToPos(this.findWsEnd(this.pos));
+      }
+      scanWord() {
+        let end = this.pos;
+        for (; end < this.str.length; end++) {
+          const code = this.str.charCodeAt(end);
+          if (code >= 128 || NAME_CHAR[code] === 0) {
+            break;
+          }
+        }
+        if (this.pos === end) {
+          this.error("Expect a keyword");
+        }
+        return this.substringToPos(end);
+      }
+      scanNumber() {
+        let end = this.pos;
+        for (; end < this.str.length; end++) {
+          const code = this.str.charCodeAt(end);
+          if (code < 48 || code > 57) {
+            break;
+          }
+        }
+        if (this.pos === end) {
+          this.error("Expect a number");
+        }
+        return this.substringToPos(end);
+      }
+      scanString() {
+        const end = this.str.indexOf("'", this.pos + 1);
+        if (end === -1) {
+          this.pos = this.str.length;
+          this.error("Expect an apostrophe");
+        }
+        return this.substringToPos(end + 1);
+      }
     };
-    exports.Tokenizer = Tokenizer;
+    exports.Scanner = Scanner;
   }
 });
 
@@ -12920,7 +12979,7 @@ var require_tokenizer2 = __commonJS({
 var require_parse3 = __commonJS({
   "node_modules/css-tree/cjs/definition-syntax/parse.cjs"(exports) {
     "use strict";
-    var tokenizer = require_tokenizer2();
+    var scanner = require_scanner();
     var TAB = 9;
     var N = 10;
     var F = 12;
@@ -12946,109 +13005,67 @@ var require_parse3 = __commonJS({
     var VERTICALLINE = 124;
     var RIGHTCURLYBRACKET = 125;
     var INFINITY = 8734;
-    var NAME_CHAR = new Uint8Array(128).map(
-      (_, idx) => /[a-zA-Z0-9\-]/.test(String.fromCharCode(idx)) ? 1 : 0
-    );
     var COMBINATOR_PRECEDENCE = {
       " ": 1,
       "&&": 2,
       "||": 3,
       "|": 4
     };
-    function scanSpaces(tokenizer2) {
-      return tokenizer2.substringToPos(
-        tokenizer2.findWsEnd(tokenizer2.pos)
-      );
-    }
-    function scanWord(tokenizer2) {
-      let end = tokenizer2.pos;
-      for (; end < tokenizer2.str.length; end++) {
-        const code = tokenizer2.str.charCodeAt(end);
-        if (code >= 128 || NAME_CHAR[code] === 0) {
-          break;
-        }
-      }
-      if (tokenizer2.pos === end) {
-        tokenizer2.error("Expect a keyword");
-      }
-      return tokenizer2.substringToPos(end);
-    }
-    function scanNumber(tokenizer2) {
-      let end = tokenizer2.pos;
-      for (; end < tokenizer2.str.length; end++) {
-        const code = tokenizer2.str.charCodeAt(end);
-        if (code < 48 || code > 57) {
-          break;
-        }
-      }
-      if (tokenizer2.pos === end) {
-        tokenizer2.error("Expect a number");
-      }
-      return tokenizer2.substringToPos(end);
-    }
-    function scanString(tokenizer2) {
-      const end = tokenizer2.str.indexOf("'", tokenizer2.pos + 1);
-      if (end === -1) {
-        tokenizer2.pos = tokenizer2.str.length;
-        tokenizer2.error("Expect an apostrophe");
-      }
-      return tokenizer2.substringToPos(end + 1);
-    }
-    function readMultiplierRange(tokenizer2) {
+    function readMultiplierRange(scanner2) {
       let min = null;
       let max = null;
-      tokenizer2.eat(LEFTCURLYBRACKET);
-      tokenizer2.skipWs();
-      min = scanNumber(tokenizer2);
-      tokenizer2.skipWs();
-      if (tokenizer2.charCode() === COMMA) {
-        tokenizer2.pos++;
-        tokenizer2.skipWs();
-        if (tokenizer2.charCode() !== RIGHTCURLYBRACKET) {
-          max = scanNumber(tokenizer2);
-          tokenizer2.skipWs();
+      scanner2.eat(LEFTCURLYBRACKET);
+      scanner2.skipWs();
+      min = scanner2.scanNumber(scanner2);
+      scanner2.skipWs();
+      if (scanner2.charCode() === COMMA) {
+        scanner2.pos++;
+        scanner2.skipWs();
+        if (scanner2.charCode() !== RIGHTCURLYBRACKET) {
+          max = scanner2.scanNumber(scanner2);
+          scanner2.skipWs();
         }
       } else {
         max = min;
       }
-      tokenizer2.eat(RIGHTCURLYBRACKET);
+      scanner2.eat(RIGHTCURLYBRACKET);
       return {
         min: Number(min),
         max: max ? Number(max) : 0
       };
     }
-    function readMultiplier(tokenizer2) {
+    function readMultiplier(scanner2) {
       let range = null;
       let comma = false;
-      switch (tokenizer2.charCode()) {
+      switch (scanner2.charCode()) {
         case ASTERISK:
-          tokenizer2.pos++;
+          scanner2.pos++;
           range = {
             min: 0,
             max: 0
           };
           break;
         case PLUSSIGN:
-          tokenizer2.pos++;
+          scanner2.pos++;
           range = {
             min: 1,
             max: 0
           };
           break;
         case QUESTIONMARK:
-          tokenizer2.pos++;
+          scanner2.pos++;
           range = {
             min: 0,
             max: 1
           };
           break;
         case NUMBERSIGN:
-          tokenizer2.pos++;
+          scanner2.pos++;
           comma = true;
-          if (tokenizer2.charCode() === LEFTCURLYBRACKET) {
-            range = readMultiplierRange(tokenizer2);
-          } else if (tokenizer2.charCode() === QUESTIONMARK) {
-            tokenizer2.pos++;
+          if (scanner2.charCode() === LEFTCURLYBRACKET) {
+            range = readMultiplierRange(scanner2);
+          } else if (scanner2.charCode() === QUESTIONMARK) {
+            scanner2.pos++;
             range = {
               min: 0,
               max: 0
@@ -13061,7 +13078,7 @@ var require_parse3 = __commonJS({
           }
           break;
         case LEFTCURLYBRACKET:
-          range = readMultiplierRange(tokenizer2);
+          range = readMultiplierRange(scanner2);
           break;
         default:
           return null;
@@ -13074,109 +13091,119 @@ var require_parse3 = __commonJS({
         term: null
       };
     }
-    function maybeMultiplied(tokenizer2, node) {
-      const multiplier = readMultiplier(tokenizer2);
+    function maybeMultiplied(scanner2, node) {
+      const multiplier = readMultiplier(scanner2);
       if (multiplier !== null) {
         multiplier.term = node;
-        if (tokenizer2.charCode() === NUMBERSIGN && tokenizer2.charCodeAt(tokenizer2.pos - 1) === PLUSSIGN) {
-          return maybeMultiplied(tokenizer2, multiplier);
+        if (scanner2.charCode() === NUMBERSIGN && scanner2.charCodeAt(scanner2.pos - 1) === PLUSSIGN) {
+          return maybeMultiplied(scanner2, multiplier);
         }
         return multiplier;
       }
       return node;
     }
-    function maybeToken(tokenizer2) {
-      const ch = tokenizer2.peek();
+    function maybeToken(scanner2) {
+      const ch = scanner2.peek();
       if (ch === "") {
         return null;
       }
-      return {
+      return maybeMultiplied(scanner2, {
         type: "Token",
         value: ch
-      };
+      });
     }
-    function readProperty(tokenizer2) {
+    function readProperty(scanner2) {
       let name;
-      tokenizer2.eat(LESSTHANSIGN);
-      tokenizer2.eat(APOSTROPHE);
-      name = scanWord(tokenizer2);
-      tokenizer2.eat(APOSTROPHE);
-      tokenizer2.eat(GREATERTHANSIGN);
-      return maybeMultiplied(tokenizer2, {
+      scanner2.eat(LESSTHANSIGN);
+      scanner2.eat(APOSTROPHE);
+      name = scanner2.scanWord();
+      scanner2.eat(APOSTROPHE);
+      scanner2.eat(GREATERTHANSIGN);
+      return maybeMultiplied(scanner2, {
         type: "Property",
         name
       });
     }
-    function readTypeRange(tokenizer2) {
+    function readTypeRange(scanner2) {
       let min = null;
       let max = null;
       let sign = 1;
-      tokenizer2.eat(LEFTSQUAREBRACKET);
-      if (tokenizer2.charCode() === HYPERMINUS) {
-        tokenizer2.peek();
+      scanner2.eat(LEFTSQUAREBRACKET);
+      if (scanner2.charCode() === HYPERMINUS) {
+        scanner2.peek();
         sign = -1;
       }
-      if (sign == -1 && tokenizer2.charCode() === INFINITY) {
-        tokenizer2.peek();
+      if (sign == -1 && scanner2.charCode() === INFINITY) {
+        scanner2.peek();
       } else {
-        min = sign * Number(scanNumber(tokenizer2));
-        if (NAME_CHAR[tokenizer2.charCode()] !== 0) {
-          min += scanWord(tokenizer2);
+        min = sign * Number(scanner2.scanNumber(scanner2));
+        if (scanner2.isNameCharCode()) {
+          min += scanner2.scanWord();
         }
       }
-      scanSpaces(tokenizer2);
-      tokenizer2.eat(COMMA);
-      scanSpaces(tokenizer2);
-      if (tokenizer2.charCode() === INFINITY) {
-        tokenizer2.peek();
+      scanner2.skipWs();
+      scanner2.eat(COMMA);
+      scanner2.skipWs();
+      if (scanner2.charCode() === INFINITY) {
+        scanner2.peek();
       } else {
         sign = 1;
-        if (tokenizer2.charCode() === HYPERMINUS) {
-          tokenizer2.peek();
+        if (scanner2.charCode() === HYPERMINUS) {
+          scanner2.peek();
           sign = -1;
         }
-        max = sign * Number(scanNumber(tokenizer2));
-        if (NAME_CHAR[tokenizer2.charCode()] !== 0) {
-          max += scanWord(tokenizer2);
+        max = sign * Number(scanner2.scanNumber(scanner2));
+        if (scanner2.isNameCharCode()) {
+          max += scanner2.scanWord();
         }
       }
-      tokenizer2.eat(RIGHTSQUAREBRACKET);
+      scanner2.eat(RIGHTSQUAREBRACKET);
       return {
         type: "Range",
         min,
         max
       };
     }
-    function readType(tokenizer2) {
+    function readType(scanner2) {
       let name;
       let opts = null;
-      tokenizer2.eat(LESSTHANSIGN);
-      name = scanWord(tokenizer2);
-      if (tokenizer2.charCode() === LEFTPARENTHESIS && tokenizer2.nextCharCode() === RIGHTPARENTHESIS) {
-        tokenizer2.pos += 2;
+      scanner2.eat(LESSTHANSIGN);
+      name = scanner2.scanWord();
+      if (name === "boolean-expr") {
+        scanner2.eat(LEFTSQUAREBRACKET);
+        const implicitGroup = readImplicitGroup(scanner2, RIGHTSQUAREBRACKET);
+        scanner2.eat(RIGHTSQUAREBRACKET);
+        scanner2.eat(GREATERTHANSIGN);
+        return maybeMultiplied(scanner2, {
+          type: "Boolean",
+          term: implicitGroup.terms.length === 1 ? implicitGroup.terms[0] : implicitGroup
+        });
+      }
+      if (scanner2.charCode() === LEFTPARENTHESIS && scanner2.nextCharCode() === RIGHTPARENTHESIS) {
+        scanner2.pos += 2;
         name += "()";
       }
-      if (tokenizer2.charCodeAt(tokenizer2.findWsEnd(tokenizer2.pos)) === LEFTSQUAREBRACKET) {
-        scanSpaces(tokenizer2);
-        opts = readTypeRange(tokenizer2);
+      if (scanner2.charCodeAt(scanner2.findWsEnd(scanner2.pos)) === LEFTSQUAREBRACKET) {
+        scanner2.skipWs();
+        opts = readTypeRange(scanner2);
       }
-      tokenizer2.eat(GREATERTHANSIGN);
-      return maybeMultiplied(tokenizer2, {
+      scanner2.eat(GREATERTHANSIGN);
+      return maybeMultiplied(scanner2, {
         type: "Type",
         name,
         opts
       });
     }
-    function readKeywordOrFunction(tokenizer2) {
-      const name = scanWord(tokenizer2);
-      if (tokenizer2.charCode() === LEFTPARENTHESIS) {
-        tokenizer2.pos++;
+    function readKeywordOrFunction(scanner2) {
+      const name = scanner2.scanWord();
+      if (scanner2.charCode() === LEFTPARENTHESIS) {
+        scanner2.pos++;
         return {
           type: "Function",
           name
         };
       }
-      return maybeMultiplied(tokenizer2, {
+      return maybeMultiplied(scanner2, {
         type: "Keyword",
         name
       });
@@ -13229,18 +13256,18 @@ var require_parse3 = __commonJS({
       }
       return combinator;
     }
-    function readImplicitGroup(tokenizer2) {
+    function readImplicitGroup(scanner2, stopCharCode) {
+      const combinators = /* @__PURE__ */ Object.create(null);
       const terms = [];
-      const combinators = {};
       let token;
       let prevToken = null;
-      let prevTokenPos = tokenizer2.pos;
-      while (token = peek(tokenizer2)) {
+      let prevTokenPos = scanner2.pos;
+      while (scanner2.charCode() !== stopCharCode && (token = peek(scanner2, stopCharCode))) {
         if (token.type !== "Spaces") {
           if (token.type === "Combinator") {
             if (prevToken === null || prevToken.type === "Combinator") {
-              tokenizer2.pos = prevTokenPos;
-              tokenizer2.error("Unexpected combinator");
+              scanner2.pos = prevTokenPos;
+              scanner2.error("Unexpected combinator");
             }
             combinators[token.value] = true;
           } else if (prevToken !== null && prevToken.type !== "Combinator") {
@@ -13252,12 +13279,12 @@ var require_parse3 = __commonJS({
           }
           terms.push(token);
           prevToken = token;
-          prevTokenPos = tokenizer2.pos;
+          prevTokenPos = scanner2.pos;
         }
       }
       if (prevToken !== null && prevToken.type === "Combinator") {
-        tokenizer2.pos -= prevTokenPos;
-        tokenizer2.error("Unexpected combinator");
+        scanner2.pos -= prevTokenPos;
+        scanner2.error("Unexpected combinator");
       }
       return {
         type: "Group",
@@ -13267,53 +13294,50 @@ var require_parse3 = __commonJS({
         explicit: false
       };
     }
-    function readGroup(tokenizer2) {
+    function readGroup(scanner2, stopCharCode) {
       let result;
-      tokenizer2.eat(LEFTSQUAREBRACKET);
-      result = readImplicitGroup(tokenizer2);
-      tokenizer2.eat(RIGHTSQUAREBRACKET);
+      scanner2.eat(LEFTSQUAREBRACKET);
+      result = readImplicitGroup(scanner2, stopCharCode);
+      scanner2.eat(RIGHTSQUAREBRACKET);
       result.explicit = true;
-      if (tokenizer2.charCode() === EXCLAMATIONMARK) {
-        tokenizer2.pos++;
+      if (scanner2.charCode() === EXCLAMATIONMARK) {
+        scanner2.pos++;
         result.disallowEmpty = true;
       }
       return result;
     }
-    function peek(tokenizer2) {
-      let code = tokenizer2.charCode();
-      if (code < 128 && NAME_CHAR[code] === 1) {
-        return readKeywordOrFunction(tokenizer2);
-      }
+    function peek(scanner2, stopCharCode) {
+      let code = scanner2.charCode();
       switch (code) {
         case RIGHTSQUAREBRACKET:
           break;
         case LEFTSQUAREBRACKET:
-          return maybeMultiplied(tokenizer2, readGroup(tokenizer2));
+          return maybeMultiplied(scanner2, readGroup(scanner2, stopCharCode));
         case LESSTHANSIGN:
-          return tokenizer2.nextCharCode() === APOSTROPHE ? readProperty(tokenizer2) : readType(tokenizer2);
+          return scanner2.nextCharCode() === APOSTROPHE ? readProperty(scanner2) : readType(scanner2);
         case VERTICALLINE:
           return {
             type: "Combinator",
-            value: tokenizer2.substringToPos(
-              tokenizer2.pos + (tokenizer2.nextCharCode() === VERTICALLINE ? 2 : 1)
+            value: scanner2.substringToPos(
+              scanner2.pos + (scanner2.nextCharCode() === VERTICALLINE ? 2 : 1)
             )
           };
         case AMPERSAND:
-          tokenizer2.pos++;
-          tokenizer2.eat(AMPERSAND);
+          scanner2.pos++;
+          scanner2.eat(AMPERSAND);
           return {
             type: "Combinator",
             value: "&&"
           };
         case COMMA:
-          tokenizer2.pos++;
+          scanner2.pos++;
           return {
             type: "Comma"
           };
         case APOSTROPHE:
-          return maybeMultiplied(tokenizer2, {
+          return maybeMultiplied(scanner2, {
             type: "String",
-            value: scanString(tokenizer2)
+            value: scanner2.scanString()
           });
         case SPACE:
         case TAB:
@@ -13322,18 +13346,18 @@ var require_parse3 = __commonJS({
         case F:
           return {
             type: "Spaces",
-            value: scanSpaces(tokenizer2)
+            value: scanner2.scanSpaces()
           };
         case COMMERCIALAT:
-          code = tokenizer2.nextCharCode();
-          if (code < 128 && NAME_CHAR[code] === 1) {
-            tokenizer2.pos++;
+          code = scanner2.nextCharCode();
+          if (scanner2.isNameCharCode(code)) {
+            scanner2.pos++;
             return {
               type: "AtKeyword",
-              name: scanWord(tokenizer2)
+              name: scanner2.scanWord()
             };
           }
-          return maybeToken(tokenizer2);
+          return maybeToken(scanner2);
         case ASTERISK:
         case PLUSSIGN:
         case QUESTIONMARK:
@@ -13341,20 +13365,23 @@ var require_parse3 = __commonJS({
         case EXCLAMATIONMARK:
           break;
         case LEFTCURLYBRACKET:
-          code = tokenizer2.nextCharCode();
+          code = scanner2.nextCharCode();
           if (code < 48 || code > 57) {
-            return maybeToken(tokenizer2);
+            return maybeToken(scanner2);
           }
           break;
         default:
-          return maybeToken(tokenizer2);
+          if (scanner2.isNameCharCode(code)) {
+            return readKeywordOrFunction(scanner2);
+          }
+          return maybeToken(scanner2);
       }
     }
     function parse(source) {
-      const tokenizer$1 = new tokenizer.Tokenizer(source);
-      const result = readImplicitGroup(tokenizer$1);
-      if (tokenizer$1.pos !== source.length) {
-        tokenizer$1.error("Unexpected input");
+      const scanner$1 = new scanner.Scanner(source);
+      const result = readImplicitGroup(scanner$1);
+      if (scanner$1.pos !== source.length) {
+        scanner$1.error("Unexpected input");
       }
       if (result.terms.length === 1 && result.terms[0].type === "Group") {
         return result.terms[0];
@@ -13398,6 +13425,30 @@ var require_match_graph = __commonJS({
     }
     function isEnumCapatible(term) {
       return term.type === "Keyword" || term.type === "AtKeyword" || term.type === "Function" || term.type === "Type" && isFunctionType(term.name);
+    }
+    function groupNode(terms, combinator = " ", explicit = false) {
+      return {
+        type: "Group",
+        terms,
+        combinator,
+        disallowEmpty: false,
+        explicit
+      };
+    }
+    function replaceTypeInGraph(node, replacements, visited = /* @__PURE__ */ new Set()) {
+      if (!visited.has(node)) {
+        visited.add(node);
+        switch (node.type) {
+          case "If":
+            node.match = replaceTypeInGraph(node.match, replacements, visited);
+            node.then = replaceTypeInGraph(node.then, replacements, visited);
+            node.else = replaceTypeInGraph(node.else, replacements, visited);
+            break;
+          case "Type":
+            return replacements[node.name] || node;
+        }
+      }
+      return node;
     }
     function buildGroupMatchGraph(combinator, terms, atLeastOneTermMatched) {
       switch (combinator) {
@@ -13608,6 +13659,43 @@ var require_match_graph = __commonJS({
         }
         case "Multiplier":
           return buildMultiplierMatchGraph(node);
+        // https://drafts.csswg.org/css-values-5/#boolean
+        case "Boolean": {
+          const term = buildMatchGraphInternal(node.term);
+          const matchNode = buildMatchGraphInternal(groupNode([
+            groupNode([
+              { type: "Keyword", name: "not" },
+              { type: "Type", name: "!boolean-group" }
+            ]),
+            groupNode([
+              { type: "Type", name: "!boolean-group" },
+              groupNode([
+                { type: "Multiplier", comma: false, min: 0, max: 0, term: groupNode([
+                  { type: "Keyword", name: "and" },
+                  { type: "Type", name: "!boolean-group" }
+                ]) },
+                { type: "Multiplier", comma: false, min: 0, max: 0, term: groupNode([
+                  { type: "Keyword", name: "or" },
+                  { type: "Type", name: "!boolean-group" }
+                ]) }
+              ], "|")
+            ])
+          ], "|"));
+          const booleanGroup = buildMatchGraphInternal(
+            groupNode([
+              { type: "Type", name: "!term" },
+              groupNode([
+                { type: "Token", value: "(" },
+                { type: "Type", name: "!self" },
+                { type: "Token", value: ")" }
+              ]),
+              { type: "Type", name: "general-enclosed" }
+            ], "|")
+          );
+          replaceTypeInGraph(booleanGroup, { "!term": term, "!self": matchNode });
+          replaceTypeInGraph(matchNode, { "!boolean-group": booleanGroup });
+          return matchNode;
+        }
         case "Type":
         case "Property":
           return {
@@ -14401,6 +14489,7 @@ var require_walk = __commonJS({
             node2.terms.forEach(walk2);
             break;
           case "Multiplier":
+          case "Boolean":
             walk2(node2.term);
             break;
           case "Type":
@@ -14452,7 +14541,6 @@ var require_Lexer = __commonJS({
     var parse = require_parse3();
     var generate = require_generate();
     var walk = require_walk();
-    var cssWideKeywordsSyntax = matchGraph.buildMatchGraph(genericConst.cssWideKeywords.join(" | "));
     function dumpMapSyntax(map, compact, syntaxAsAst) {
       const result = {};
       for (const name in map) {
@@ -14515,7 +14603,7 @@ var require_Lexer = __commonJS({
     }
     var Lexer = class {
       constructor(config, syntax, structure$1) {
-        this.cssWideKeywordsSyntax = cssWideKeywordsSyntax;
+        this.cssWideKeywords = genericConst.cssWideKeywords;
         this.syntax = syntax;
         this.generic = false;
         this.units = { ...units };
@@ -14524,6 +14612,9 @@ var require_Lexer = __commonJS({
         this.types = /* @__PURE__ */ Object.create(null);
         this.structure = structure$1 || structure.getStructureFromConfig(config);
         if (config) {
+          if (config.cssWideKeywords) {
+            this.cssWideKeywords = config.cssWideKeywords;
+          }
           if (config.units) {
             for (const group of Object.keys(units)) {
               if (Array.isArray(config.units[group])) {
@@ -14553,6 +14644,7 @@ var require_Lexer = __commonJS({
             }
           }
         }
+        this.cssWideKeywordsSyntax = matchGraph.buildMatchGraph(this.cssWideKeywords.join(" |  "));
       }
       checkStructure(ast) {
         function collectWarning(node, message) {
@@ -14782,6 +14874,9 @@ var require_Lexer = __commonJS({
         return hasOwnProperty.call(this.types, name) ? this.types[name] : null;
       }
       validate() {
+        function syntaxRef(name, isType) {
+          return isType ? `<${name}>` : `<'${name}'>`;
+        }
         function validate(syntax, name, broken, descriptor) {
           if (broken.has(name)) {
             return broken.get(name);
@@ -14794,12 +14889,17 @@ var require_Lexer = __commonJS({
               }
               const map = node.type === "Type" ? syntax.types : syntax.properties;
               const brokenMap = node.type === "Type" ? brokenTypes : brokenProperties;
-              if (!hasOwnProperty.call(map, node.name) || validate(syntax, node.name, brokenMap, map[node.name])) {
+              if (!hasOwnProperty.call(map, node.name)) {
+                errors.push(`${syntaxRef(name, broken === brokenTypes)} used missed syntax definition ${syntaxRef(node.name, node.type === "Type")}`);
+                broken.set(name, true);
+              } else if (validate(syntax, node.name, brokenMap, map[node.name])) {
+                errors.push(`${syntaxRef(name, broken === brokenTypes)} used broken syntax definition ${syntaxRef(node.name, node.type === "Type")}`);
                 broken.set(name, true);
               }
             }, this);
           }
         }
+        const errors = [];
         let brokenTypes = /* @__PURE__ */ new Map();
         let brokenProperties = /* @__PURE__ */ new Map();
         for (const key in this.types) {
@@ -14808,12 +14908,13 @@ var require_Lexer = __commonJS({
         for (const key in this.properties) {
           validate(this, key, brokenProperties, this.properties[key]);
         }
-        brokenTypes = [...brokenTypes.keys()].filter((name) => brokenTypes.get(name));
-        brokenProperties = [...brokenProperties.keys()].filter((name) => brokenProperties.get(name));
-        if (brokenTypes.length || brokenProperties.length) {
+        const brokenTypesArray = [...brokenTypes.keys()].filter((name) => brokenTypes.get(name));
+        const brokenPropertiesArray = [...brokenProperties.keys()].filter((name) => brokenProperties.get(name));
+        if (brokenTypesArray.length || brokenPropertiesArray.length) {
           return {
-            types: brokenTypes,
-            properties: brokenProperties
+            errors,
+            types: brokenTypesArray,
+            properties: brokenPropertiesArray
           };
         }
         return null;
@@ -14821,6 +14922,7 @@ var require_Lexer = __commonJS({
       dump(syntaxAsAst, pretty) {
         return {
           generic: this.generic,
+          cssWideKeywords: this.cssWideKeywords,
           units: this.units,
           types: dumpMapSyntax(this.types, !pretty, syntaxAsAst),
           properties: dumpMapSyntax(this.properties, !pretty, syntaxAsAst),
@@ -14865,6 +14967,9 @@ var require_mix = __commonJS({
         switch (prop) {
           case "generic":
             result[prop] = Boolean(value);
+            break;
+          case "cssWideKeywords":
+            result[prop] = dest[prop] ? [...dest[prop], ...value] : value || [];
             break;
           case "units":
             result[prop] = { ...dest[prop] };
@@ -14966,12 +15071,13 @@ var require_create5 = __commonJS({
         fork(extension) {
           const base = mix({}, config);
           return createSyntax(
-            typeof extension === "function" ? extension(base, Object.assign) : mix(base, extension)
+            typeof extension === "function" ? extension(base) : mix(base, extension)
           );
         }
       };
       syntax.lexer = new Lexer.Lexer({
         generic: config.generic,
+        cssWideKeywords: config.cssWideKeywords,
         units: config.units,
         types: config.types,
         atrules: config.atrules,
@@ -14990,6 +15096,13 @@ var require_data = __commonJS({
   "node_modules/css-tree/dist/data.cjs"(exports, module) {
     module.exports = {
       "generic": true,
+      "cssWideKeywords": [
+        "initial",
+        "inherit",
+        "unset",
+        "revert",
+        "revert-layer"
+      ],
       "units": {
         "angle": [
           "deg",
@@ -15092,9 +15205,9 @@ var require_data = __commonJS({
         "attribute-selector": "'[' <wq-name> ']'|'[' <wq-name> <attr-matcher> [<string-token>|<ident-token>] <attr-modifier>? ']'",
         "auto-repeat": "repeat( [auto-fill|auto-fit] , [<line-names>? <fixed-size>]+ <line-names>? )",
         "auto-track-list": "[<line-names>? [<fixed-size>|<fixed-repeat>]]* <line-names>? <auto-repeat> [<line-names>? [<fixed-size>|<fixed-repeat>]]* <line-names>?",
-        "axis": "block|inline|vertical|horizontal",
+        "axis": "block|inline|x|y",
         "baseline-position": "[first|last]? baseline",
-        "basic-shape": "<inset()>|<circle()>|<ellipse()>|<polygon()>|<path()>",
+        "basic-shape": "<inset()>|<xywh()>|<rect()>|<circle()>|<ellipse()>|<polygon()>|<path()>",
         "bg-image": "none|<image>",
         "bg-layer": "<bg-image>||<bg-position> [/ <bg-size>]?||<repeat-style>||<attachment>||<box>||<box>",
         "bg-position": "[[left|center|right|top|bottom|<length-percentage>]|[left|center|right|<length-percentage>] [top|center|bottom|<length-percentage>]|[center|[left|right] <length-percentage>?]&&[center|[top|bottom] <length-percentage>?]]",
@@ -15119,6 +15232,7 @@ var require_data = __commonJS({
         "color-stop-angle": "<angle-percentage>{1,2}",
         "color-stop-length": "<length-percentage>{1,2}",
         "color-stop-list": "[<linear-color-stop> [, <linear-color-hint>]?]# , <linear-color-stop>",
+        "color-interpolation-method": "in [<rectangular-color-space>|<polar-color-space> <hue-interpolation-method>?|<custom-color-space>]",
         "combinator": "'>'|'+'|'~'|['|' '|']",
         "common-lig-values": "[common-ligatures|no-common-ligatures]",
         "compat-auto": "searchfield|textarea|push-button|slider-horizontal|checkbox|radio|square-button|menulist|listbox|meter|progress-bar|button",
@@ -15192,6 +15306,7 @@ var require_data = __commonJS({
         "hsla()": "hsla( <hue> <percentage> <percentage> [/ <alpha-value>]? )|hsla( <hue> , <percentage> , <percentage> , <alpha-value>? )",
         "hue": "<number>|<angle>",
         "hue-rotate()": "hue-rotate( <angle> )",
+        "hue-interpolation-method": "[shorter|longer|increasing|decreasing] hue",
         "hwb()": "hwb( [<hue>|none] [<percentage>|none] [<percentage>|none] [/ [<alpha-value>|none]]? )",
         "hypot()": "hypot( <calc-sum># )",
         "image": "<url>|<image()>|<image-set()>|<element()>|<paint()>|<cross-fade()>|<gradient>",
@@ -15221,7 +15336,7 @@ var require_data = __commonJS({
         "line-width": "<length>|thin|medium|thick",
         "linear-color-hint": "<length-percentage>",
         "linear-color-stop": "<color> <color-stop-length>?",
-        "linear-gradient()": "linear-gradient( [<angle>|to <side-or-corner>]? , <color-stop-list> )",
+        "linear-gradient()": "linear-gradient( [[<angle>|to <side-or-corner>]||<color-interpolation-method>]? , <color-stop-list> )",
         "log()": "log( <calc-sum> , <calc-sum>? )",
         "mask-layer": "<mask-reference>||<position> [/ <bg-size>]?||<repeat-style>||<geometry-box>||[<geometry-box>|no-clip]||<compositing-operator>||<masking-mode>",
         "mask-position": "[<length-percentage>|left|center|right] [<length-percentage>|top|center|bottom]?",
@@ -15271,6 +15386,7 @@ var require_data = __commonJS({
         "paint()": "paint( <ident> , <declaration-value>? )",
         "perspective()": "perspective( [<length [0,\u221E]>|none] )",
         "polygon()": "polygon( <fill-rule>? , [<length-percentage> <length-percentage>]# )",
+        "polar-color-space": "hsl|hwb|lch|oklch",
         "position": "[[left|center|right]||[top|center|bottom]|[left|center|right|<length-percentage>] [top|center|bottom|<length-percentage>]?|[[left|right] <length-percentage>]&&[[top|bottom] <length-percentage>]]",
         "pow()": "pow( <calc-sum> , <calc-sum> )",
         "pseudo-class-selector": "':' <ident-token>|':' <function-token> <any-value> ')'",
@@ -15281,6 +15397,7 @@ var require_data = __commonJS({
         "ratio": "<number [0,\u221E]> [/ <number [0,\u221E]>]?",
         "ray()": "ray( <angle>&&<ray-size>?&&contain?&&[at <position>]? )",
         "ray-size": "closest-side|closest-corner|farthest-side|farthest-corner|sides",
+        "rectangular-color-space": "srgb|srgb-linear|display-p3|a98-rgb|prophoto-rgb|rec2020|lab|oklab|xyz|xyz-d50|xyz-d65",
         "relative-selector": "<combinator>? <complex-selector>",
         "relative-selector-list": "<relative-selector>#",
         "relative-size": "larger|smaller",
@@ -15306,7 +15423,7 @@ var require_data = __commonJS({
         "scaleY()": "scaleY( [<number>|<percentage>] )",
         "scaleZ()": "scaleZ( [<number>|<percentage>] )",
         "scroll()": "scroll( [<axis>||<scroller>]? )",
-        "scroller": "root|nearest",
+        "scroller": "root|nearest|self",
         "self-position": "center|start|end|self-start|self-end|flex-start|flex-end",
         "shape-radius": "<length-percentage>|closest-side|farthest-side",
         "sign()": "sign( <calc-sum> )",
@@ -15339,6 +15456,7 @@ var require_data = __commonJS({
         "supports-decl": "( <declaration> )",
         "supports-selector-fn": "selector( <complex-selector> )",
         "symbol": "<string>|<image>|<custom-ident>",
+        "system-color": "AccentColor|AccentColorText|ActiveText|ButtonBorder|ButtonFace|ButtonText|Canvas|CanvasText|Field|FieldText|GrayText|Highlight|HighlightText|LinkText|Mark|MarkText|SelectedItem|SelectedItemText|VisitedText",
         "tan()": "tan( <calc-sum> )",
         "target": "<target-counter()>|<target-counters()>|<target-text()>",
         "target-counter()": "target-counter( [<string>|<url>] , <custom-ident> , <counter-style>? )",
@@ -15391,8 +15509,9 @@ var require_data = __commonJS({
         "-ms-filter-function-progid": "'progid:' [<ident-token> '.']* [<ident-token>|<function-token> <any-value>? )]",
         "-ms-filter-function-legacy": "<ident-token>|<function-token> <any-value>? )",
         "absolute-color-base": "<hex-color>|<absolute-color-function>|<named-color>|transparent",
-        "absolute-color-function": "rgb( ) >|<rgba()>|<hsl()>|<hsla()>|<hwb()>|<lab()>|<lch()>|<oklab()>|<oklch()>|<color()>",
+        "absolute-color-function": "<rgb()>|<rgba()>|<hsl()>|<hsla()>|<hwb()>|<lab()>|<lch()>|<oklab()>|<oklch()>|<color()>",
         "age": "child|young|old",
+        "anchor-name": "<dashed-ident>",
         "attr-name": "<wq-name>",
         "attr-fallback": "<any-value>",
         "bg-clip": "<box>|border|text",
@@ -15409,18 +15528,13 @@ var require_data = __commonJS({
         "left": "<length>|auto",
         "color-base": "<hex-color>|<color-function>|<named-color>|<color-mix()>|transparent",
         "color-function": "<rgb()>|<rgba()>|<hsl()>|<hsla()>|<hwb()>|<lab()>|<lch()>|<oklab()>|<oklch()>|<color()>",
-        "system-color": "AccentColor|AccentColorText|ActiveText|ButtonBorder|ButtonFace|ButtonText|Canvas|CanvasText|Field|FieldText|GrayText|Highlight|HighlightText|LinkText|Mark|MarkText|SelectedItem|SelectedItemText|VisitedText",
         "device-cmyk()": "<legacy-device-cmyk-syntax>|<modern-device-cmyk-syntax>",
         "legacy-device-cmyk-syntax": "device-cmyk( <number>#{4} )",
         "modern-device-cmyk-syntax": "device-cmyk( <cmyk-component>{4} [/ [<alpha-value>|none]]? )",
         "cmyk-component": "<number>|<percentage>|none",
         "color-mix()": "color-mix( <color-interpolation-method> , [<color>&&<percentage [0,100]>?]#{2} )",
-        "color-interpolation-method": "in [<rectangular-color-space>|<polar-color-space> <hue-interpolation-method>?|<custom-color-space>]",
         "color-space": "<rectangular-color-space>|<polar-color-space>|<custom-color-space>",
-        "rectangular-color-space": "srgb|srgb-linear|display-p3|a98-rgb|prophoto-rgb|rec2020|lab|oklab|xyz|xyz-d50|xyz-d65",
-        "polar-color-space": "hsl|hwb|lch|oklch",
         "custom-color-space": "<dashed-ident>",
-        "hue-interpolation-method": "[shorter|longer|increasing|decreasing] hue",
         "paint": "none|<color>|<url> [none|<color>]?|context-fill|context-stroke",
         "palette-identifier": "<dashed-ident>",
         "right": "<length>|auto",
@@ -15459,6 +15573,8 @@ var require_data = __commonJS({
         "oklab()": "oklab( [<percentage>|<number>|none] [<percentage>|<number>|none] [<percentage>|<number>|none] [/ [<alpha-value>|none]]? )",
         "oklch()": "oklch( [<percentage>|<number>|none] [<percentage>|<number>|none] [<hue>|none] [/ [<alpha-value>|none]]? )",
         "offset-path": "<ray()>|<url>|<basic-shape>",
+        "rect()": "rect( [<length-percentage>|auto]{4} [round <'border-radius'>]? )",
+        "xywh()": "xywh( <length-percentage>{2} <length-percentage [0,\u221E]>{2} [round <'border-radius'>]? )",
         "query-in-parens": "( <container-condition> )|( <size-feature> )|style( <style-query> )|<general-enclosed>",
         "size-feature": "<mf-plain>|<mf-boolean>|<mf-range>",
         "style-feature": "<declaration>",
@@ -15603,7 +15719,7 @@ var require_data = __commonJS({
         "animation-timing-function": "<easing-function>#",
         "animation-timeline": "<single-animation-timeline>#",
         "appearance": "none|auto|textfield|menulist-button|<compat-auto>",
-        "aspect-ratio": "auto|<ratio>",
+        "aspect-ratio": "auto||<ratio>",
         "azimuth": "<angle>|[[left-side|far-left|left|center-left|center|center-right|right|far-right|right-side]||behind]|leftwards|rightwards",
         "backdrop-filter": "none|<filter-function-list>",
         "backface-visibility": "visible|hidden",
@@ -15708,7 +15824,7 @@ var require_data = __commonJS({
         "color-interpolation-filters": "auto|sRGB|linearRGB",
         "color-scheme": "normal|[light|dark|<custom-ident>]+&&only?",
         "column-count": "<integer>|auto",
-        "column-fill": "auto|balance|balance-all",
+        "column-fill": "auto|balance",
         "column-gap": "normal|<length-percentage>",
         "column-rule": "<'column-rule-width'>||<'column-rule-style'>||<'column-rule-color'>",
         "column-rule-color": "<color>",
@@ -15779,7 +15895,7 @@ var require_data = __commonJS({
         "font-variant-numeric": "normal|[<numeric-figure-values>||<numeric-spacing-values>||<numeric-fraction-values>||ordinal||slashed-zero]",
         "font-variant-position": "normal|sub|super",
         "font-weight": "<font-weight-absolute>|bolder|lighter",
-        "forced-color-adjust": "auto|none",
+        "forced-color-adjust": "auto|none|preserve-parent-color",
         "gap": "<'row-gap'> <'column-gap'>?",
         "grid": "<'grid-template'>|<'grid-template-rows'> / [auto-flow&&dense?] <'grid-auto-columns'>?|[auto-flow&&dense?] <'grid-auto-rows'>? / <'grid-template-columns'>",
         "grid-area": "<grid-line> [/ <grid-line>]{0,3}",
@@ -15813,13 +15929,13 @@ var require_data = __commonJS({
         "inline-size": "<'width'>",
         "input-security": "auto|none",
         "inset": "<'top'>{1,4}",
-        "inset-area": "none|<inset-area>",
         "inset-block": "<'top'>{1,2}",
         "inset-block-end": "<'top'>",
         "inset-block-start": "<'top'>",
         "inset-inline": "<'top'>{1,2}",
         "inset-inline-end": "<'top'>",
         "inset-inline-start": "<'top'>",
+        "interpolate-size": "numeric-only|allow-keywords",
         "isolation": "auto|isolate",
         "justify-content": "normal|<content-distribution>|<overflow-position>? [<content-position>|left|right]",
         "justify-items": "normal|stretch|<baseline-position>|<overflow-position>? [<self-position>|left|right]|legacy|legacy&&[left|right|center]",
@@ -15936,7 +16052,8 @@ var require_data = __commonJS({
         "place-self": "<'align-self'> <'justify-self'>?",
         "pointer-events": "auto|none|visiblePainted|visibleFill|visibleStroke|visible|painted|fill|stroke|all|inherit",
         "position": "static|relative|absolute|sticky|fixed|-webkit-sticky",
-        "position-anchor": "<anchor-element>",
+        "position-anchor": "auto|<anchor-name>",
+        "position-area": "none|<position-area>",
         "position-try": "<'position-try-order'>? <'position-try-fallbacks'>",
         "position-try-fallbacks": "none|[[<dashed-ident>||<try-tactic>]|<'position-area'>]#",
         "position-try-order": "normal|<try-size>",
@@ -15953,7 +16070,7 @@ var require_data = __commonJS({
         "ruby-position": "[alternate||[over|under]]|inter-character",
         "rx": "<length>|<percentage>",
         "ry": "<length>|<percentage>",
-        "scale": "none|<number>{1,3}",
+        "scale": "none|[<number>|<percentage>]{1,3}",
         "scrollbar-color": "auto|<color>{2}",
         "scrollbar-gutter": "auto|stable&&both-edges?",
         "scrollbar-width": "auto|thin|none",
@@ -15996,6 +16113,14 @@ var require_data = __commonJS({
         "shape-margin": "<length-percentage>",
         "shape-outside": "none|[<shape-box>||<basic-shape>]|<image>",
         "shape-rendering": "auto|optimizeSpeed|crispEdges|geometricPrecision",
+        "stroke": "<paint>",
+        "stroke-dasharray": "none|[<svg-length>+]#",
+        "stroke-dashoffset": "<svg-length>",
+        "stroke-linecap": "butt|round|square",
+        "stroke-linejoin": "miter|round|bevel",
+        "stroke-miterlimit": "<number-one-or-greater>",
+        "stroke-opacity": "<'opacity'>",
+        "stroke-width": "<svg-length>",
         "tab-size": "<integer>|<length>",
         "table-layout": "auto|fixed",
         "text-align": "start|end|left|right|center|justify|match-parent",
@@ -16011,7 +16136,7 @@ var require_data = __commonJS({
         "text-decoration-thickness": "auto|from-font|<length>|<percentage>",
         "text-emphasis": "<'text-emphasis-style'>||<'text-emphasis-color'>",
         "text-emphasis-color": "<color>",
-        "text-emphasis-position": "[over|under]&&[right|left]",
+        "text-emphasis-position": "auto|[over|under]&&[right|left]?",
         "text-emphasis-style": "none|[[filled|open]||[dot|circle|double-circle|triangle|sesame]]|<string>",
         "text-indent": "<length-percentage>&&hanging?&&each-line?",
         "text-justify": "auto|inter-character|inter-word|none",
@@ -16024,7 +16149,7 @@ var require_data = __commonJS({
         "text-transform": "none|capitalize|uppercase|lowercase|full-width|full-size-kana",
         "text-underline-offset": "auto|<length>|<percentage>",
         "text-underline-position": "auto|from-font|[under||[left|right]]",
-        "text-wrap": "wrap|nowrap|balance|stable|pretty",
+        "text-wrap": "<'text-wrap-mode'>||<'text-wrap-style'>",
         "text-wrap-mode": "auto|wrap|nowrap",
         "text-wrap-style": "auto|balance|stable|pretty",
         "timeline-scope": "none|<dashed-ident>#",
@@ -16112,14 +16237,6 @@ var require_data = __commonJS({
         "src": "[<url> [format( <string># )]?|local( <family-name> )]#",
         "speak": "auto|never|always",
         "speak-as": "normal|spell-out||digits||[literal-punctuation|no-punctuation]",
-        "stroke": "<paint>",
-        "stroke-dasharray": "none|[<svg-length>+]#",
-        "stroke-dashoffset": "<svg-length>",
-        "stroke-linecap": "butt|round|square",
-        "stroke-linejoin": "miter|round|bevel",
-        "stroke-miterlimit": "<number-one-or-greater>",
-        "stroke-opacity": "<number-zero-one>",
-        "stroke-width": "<svg-length>",
         "unicode-range": "<urange>#",
         "voice-balance": "<number>|left|center|right|leftwards|rightwards",
         "voice-duration": "auto|<time>",
@@ -16129,8 +16246,7 @@ var require_data = __commonJS({
         "voice-rate": "[normal|x-slow|slow|medium|fast|x-fast]||<percentage>",
         "voice-stress": "normal|strong|moderate|none|reduced",
         "voice-volume": "silent|[[x-soft|soft|medium|loud|x-loud]||<decibel>]",
-        "white-space-trim": "none|discard-before||discard-after||discard-inner",
-        "position-area": "none|<position-area>"
+        "white-space-trim": "none|discard-before||discard-after||discard-inner"
       },
       "atrules": {
         "charset": {
@@ -16549,14 +16665,10 @@ var require_Atrule = __commonJS({
           this.next();
           break;
         case types.LeftCurlyBracket:
-          this.eat(types.LeftCurlyBracket);
           if (hasOwnProperty.call(this.atrule, nameLowerCase) && typeof this.atrule[nameLowerCase].block === "function") {
             block = this.atrule[nameLowerCase].block.call(this, isDeclaration);
           } else {
             block = this.Block(isDeclarationBlockAtrule.call(this));
-          }
-          if (!this.eof) {
-            this.eat(types.RightCurlyBracket);
           }
           break;
       }
@@ -16574,9 +16686,7 @@ var require_Atrule = __commonJS({
         this.node(node.prelude);
       }
       if (node.block) {
-        this.token(types.LeftCurlyBracket, "{");
         this.node(node.block);
-        this.token(types.RightCurlyBracket, "}");
       } else {
         this.token(types.Semicolon, ";");
       }
@@ -16786,6 +16896,7 @@ var require_Block = __commonJS({
       const consumer = isStyleBlock ? consumeDeclaration : consumeRule;
       const start = this.tokenStart;
       let children = this.createList();
+      this.eat(types.LeftCurlyBracket);
       scan:
         while (!this.eof) {
           switch (this.tokenType) {
@@ -16806,6 +16917,9 @@ var require_Block = __commonJS({
               }
           }
         }
+      if (!this.eof) {
+        this.eat(types.RightCurlyBracket);
+      }
       return {
         type: "Block",
         loc: this.getLocation(start, this.tokenStart),
@@ -16813,11 +16927,13 @@ var require_Block = __commonJS({
       };
     }
     function generate(node) {
+      this.token(types.LeftCurlyBracket, "{");
       this.children(node, (prev) => {
         if (prev.type === "Declaration") {
           this.token(types.Semicolon, ";");
         }
       });
+      this.token(types.RightCurlyBracket, "}");
     }
     exports.generate = generate;
     exports.name = name;
@@ -17797,6 +17913,7 @@ var require_Layer = __commonJS({
       name: String
     };
     function parse() {
+      let tokenStart = this.tokenStart;
       let name2 = this.consume(types.Ident);
       while (this.isDelim(FULLSTOP)) {
         this.eat(types.Delim);
@@ -17804,7 +17921,7 @@ var require_Layer = __commonJS({
       }
       return {
         type: "Layer",
-        loc: this.getLocation(this.tokenStart, this.tokenEnd),
+        loc: this.getLocation(tokenStart, this.tokenStart),
         name: name2
       };
     }
@@ -18421,12 +18538,7 @@ var require_Rule = __commonJS({
       } else {
         prelude = consumeRaw.call(this, startToken);
       }
-      this.skipSC();
-      this.eat(types.LeftCurlyBracket);
       block = this.Block(true);
-      if (!this.eof) {
-        this.eat(types.RightCurlyBracket);
-      }
       return {
         type: "Rule",
         loc: this.getLocation(startOffset, this.tokenStart),
@@ -18436,9 +18548,7 @@ var require_Rule = __commonJS({
     }
     function generate(node) {
       this.node(node.prelude);
-      this.token(types.LeftCurlyBracket, "{");
       this.node(node.block);
-      this.token(types.RightCurlyBracket, "}");
     }
     exports.generate = generate;
     exports.name = name;
@@ -19244,10 +19354,12 @@ var require_node2 = __commonJS({
 var require_lexer = __commonJS({
   "node_modules/css-tree/cjs/syntax/config/lexer.cjs"(exports, module) {
     "use strict";
+    var genericConst = require_generic_const();
     var data = require_data();
     var index = require_node2();
     var lexerConfig = {
       generic: true,
+      cssWideKeywords: genericConst.cssWideKeywords,
       ...data,
       node: index
     };
@@ -20055,7 +20167,7 @@ var require_syntax = __commonJS({
 // node_modules/css-tree/dist/version.cjs
 var require_version = __commonJS({
   "node_modules/css-tree/dist/version.cjs"(exports, module) {
-    module.exports = "3.0.0";
+    module.exports = "3.1.0";
   }
 });
 
@@ -20184,6 +20296,7 @@ var require_cjs = __commonJS({
     var types = require_types2();
     var names = require_names();
     var TokenStream = require_TokenStream();
+    var OffsetToLocation = require_OffsetToLocation();
     var {
       tokenize,
       parse,
@@ -20214,6 +20327,7 @@ var require_cjs = __commonJS({
     exports.tokenTypes = types;
     exports.tokenNames = names;
     exports.TokenStream = TokenStream.TokenStream;
+    exports.OffsetToLocation = OffsetToLocation.OffsetToLocation;
     exports.createLexer = createLexer;
     exports.find = find;
     exports.findAll = findAll;
@@ -20933,7 +21047,7 @@ var require_TokenStream2 = __commonJS({
 });
 
 // node_modules/csso/node_modules/css-tree/cjs/tokenizer/index.cjs
-var require_tokenizer3 = __commonJS({
+var require_tokenizer2 = __commonJS({
   "node_modules/csso/node_modules/css-tree/cjs/tokenizer/index.cjs"(exports) {
     "use strict";
     var types = require_types3();
@@ -21775,7 +21889,7 @@ var require_create6 = __commonJS({
     "use strict";
     var List = require_List2();
     var SyntaxError2 = require_SyntaxError3();
-    var index = require_tokenizer3();
+    var index = require_tokenizer2();
     var sequence = require_sequence2();
     var OffsetToLocation = require_OffsetToLocation2();
     var TokenStream = require_TokenStream2();
@@ -22273,7 +22387,7 @@ var require_token_before2 = __commonJS({
 var require_create7 = __commonJS({
   "node_modules/csso/node_modules/css-tree/cjs/generator/create.cjs"(exports) {
     "use strict";
-    var index = require_tokenizer3();
+    var index = require_tokenizer2();
     var sourceMap = require_sourceMap2();
     var tokenBefore = require_token_before2();
     var types = require_types3();
@@ -23620,7 +23734,7 @@ var require_generic2 = __commonJS({
 var require_prepare_tokens2 = __commonJS({
   "node_modules/csso/node_modules/css-tree/cjs/lexer/prepare-tokens.cjs"(exports, module) {
     "use strict";
-    var index = require_tokenizer3();
+    var index = require_tokenizer2();
     var astToTokens = {
       decorator(handlers) {
         const tokens = [];
@@ -23686,7 +23800,7 @@ var require_SyntaxError4 = __commonJS({
 });
 
 // node_modules/csso/node_modules/css-tree/cjs/definition-syntax/tokenizer.cjs
-var require_tokenizer4 = __commonJS({
+var require_tokenizer3 = __commonJS({
   "node_modules/csso/node_modules/css-tree/cjs/definition-syntax/tokenizer.cjs"(exports) {
     "use strict";
     var SyntaxError2 = require_SyntaxError4();
@@ -23745,7 +23859,7 @@ var require_tokenizer4 = __commonJS({
 var require_parse4 = __commonJS({
   "node_modules/csso/node_modules/css-tree/cjs/definition-syntax/parse.cjs"(exports) {
     "use strict";
-    var tokenizer = require_tokenizer4();
+    var tokenizer = require_tokenizer3();
     var TAB = 9;
     var N = 10;
     var F = 12;
@@ -25744,7 +25858,7 @@ var require_mix2 = __commonJS({
 var require_create10 = __commonJS({
   "node_modules/csso/node_modules/css-tree/cjs/syntax/create.cjs"(exports, module) {
     "use strict";
-    var index = require_tokenizer3();
+    var index = require_tokenizer2();
     var create = require_create6();
     var create$2 = require_create7();
     var create$3 = require_create8();
@@ -37246,8 +37360,10 @@ var require_safeAndFast = __commonJS({
     var sortDefsChildren = require_sortDefsChildren();
     var removeTitle = require_removeTitle();
     var removeDesc = require_removeDesc();
+    var inlineStyles = require_inlineStyles();
     var presetSafe = createPreset({
       name: "safeAndFastPreset",
+      multipass: true,
       plugins: [
         removeDoctype,
         removeXMLProcInst,
@@ -37272,7 +37388,13 @@ var require_safeAndFast = __commonJS({
         removeEmptyContainers,
         removeUnusedNS,
         removeTitle,
-        removeDesc
+        removeDesc,
+        {
+          ...inlineStyles,
+          params: {
+            onlyMatchedOnce: false
+          }
+        }
       ]
     });
     module.exports = presetSafe;
