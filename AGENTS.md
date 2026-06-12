@@ -81,3 +81,14 @@ Stdin → stdout pipe only. No flags, no file args, no `--config`. Always uses `
 - `src/svgo/parser.js` parses `<!ENTITY …>` declarations out of doctype and injects them into the SAX entity table; SAX is in strict mode with `trim:false`/`normalize:false`.
 - `.gitattributes` enforces LF endings; do not commit CRLF.
 - Upstream's `preset-default` plugin parameter shape (`{ name: 'preset-default', params: { overrides: {...} } }`) is **not** implemented by this fork's `resolvePlugin`. Plugin configs here are flat (`{ name, params, fn? }`).
+
+## Security: CVE-2026-29074
+
+The fork depends on `sax@^1.6.0` (not the older `@trysound/sax@0.2.0`) and the parser config in `src/svgo/parser.js` sets `unparsedEntities: true`. This combination is what makes the recursive entity expansion safe: `sax >= 1.4` introduced `maxEntityCount` (default 512) and `maxEntityDepth` (default 4) guards around the expansion path, and `unparsedEntities: true` is required to opt in to that path in the first place.
+
+**Do not**:
+- Downgrade `sax` below 1.4.
+- Remove `unparsedEntities: true` from the parser config (entity expansion of DTD entities in SVGs like the Adobe Illustrator `entities.svg` test fixture would silently stop working).
+- Switch back to `@trysound/sax` (it lacks the entity-count/depth guards; pre-1.4 `sax` behaviour).
+
+A regression test in `test/svgo/svgo.test.js` (the `CVE-2026-29074 — billion-laughs guard` describe) feeds the advisory's 9-level PoC and asserts that the parser throws `SvgoParserError` mentioning entity depth/count, not OOM.

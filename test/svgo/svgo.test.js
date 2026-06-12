@@ -110,3 +110,46 @@ describe('parser errors', () => {
     expect(caught.message).toBe('test.svg:1:32: Unquoted attribute value');
   });
 });
+
+describe('CVE-2026-29074 — billion-laughs guard', () => {
+  // The advisory PoC: 9-level recursive entity expansion. Before the fix
+  // this crashed Node with OOM in <1s. After the fix, sax's maxEntityDepth
+  // guard fires and we get a normal SvgoParserError.
+  const billionLaughs = `<?xml version="1.0"?>
+<!DOCTYPE lolz [
+  <!ENTITY lol "lol">
+  <!ELEMENT lolz (#PCDATA)>
+  <!ENTITY lol1 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
+  <!ENTITY lol2 "&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;">
+  <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
+  <!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
+  <!ENTITY lol5 "&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;">
+  <!ENTITY lol6 "&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;">
+  <!ENTITY lol7 "&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;">
+  <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
+  <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
+]>
+<lolz>&lol9;</lolz>`;
+
+  it('throws SvgoParserError (not OOM) on billion-laughs input', () => {
+    let caught;
+    try {
+      optimize(billionLaughs, { path: 'evil.svg' });
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught).toBeDefined();
+    expect(caught.name).toBe('SvgoParserError');
+    expect(caught.reason).toMatch(/entity (depth|count)/i);
+  });
+
+  it('completes the billion-laughs parse quickly (no OOM)', () => {
+    const start = Date.now();
+    try {
+      optimize(billionLaughs, { path: 'evil.svg' });
+    } catch (_) {
+      // expected
+    }
+    expect(Date.now() - start).toBeLessThan(1000);
+  });
+});

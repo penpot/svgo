@@ -1,6 +1,6 @@
 'use strict';
 
-const SAX = require('@trysound/sax');
+const SAX = require('sax');
 const { textElems } = require('./plugins/_collections.js');
 
 class SvgoParserError extends Error {
@@ -68,6 +68,13 @@ const config = {
   lowercase: true,
   xmlns: true,
   position: true,
+  // Required by sax >= 1.4 to opt in to recursive entity expansion
+  // (which the fork relies on for SVGs that declare DTD entities).
+  // The sax library applies maxEntityCount / maxEntityDepth guards
+  // around the recursive expansion; without this opt-in the entities
+  // are not expanded and recursive entity attacks (CVE-2026-29074)
+  // are not possible.
+  unparsedEntities: true,
 };
 
 /**
@@ -174,10 +181,11 @@ const parseSvg = (data, from) => {
   };
 
   sax.onerror = (e) => {
+    const reason = e.message.split('\n')[0];
     const error = new SvgoParserError(
-      e.reason,
-      e.line + 1,
-      e.column,
+      reason,
+      sax.line + 1,
+      sax.column,
       data,
       from,
     );

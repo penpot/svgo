@@ -24,7 +24,7 @@
     "test": "jest --testPathIgnorePatterns=node_modules"
   },
   "dependencies": {
-    "@trysound/sax": "0.2.0",
+    "sax": "^1.6.0",
     "css-select": "^7.0.0",
     "css-tree": "^3.1.0",
     "csso": "^5.0.5",
