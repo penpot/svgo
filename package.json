@@ -18,12 +18,10 @@
     "dist",
     "!**/*.test.js"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "scripts": {
     "build": "esbuild --bundle --sourcemap --platform=browser --format=esm --target=es2021 src/svgo.js --outfile=dist/svgo.mjs",
-    "build:node": "esbuild --minify --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js"
+    "build:node": "esbuild --minify --bundle --platform=node --target=es2021 src/svgoCli.js --outfile=dist/svgo-cli.js",
+    "test": "jest --testPathIgnorePatterns=node_modules"
   },
   "dependencies": {
     "@trysound/sax": "0.2.0",
@@ -33,6 +31,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "esbuild": "^0.28.0"
+    "esbuild": "^0.28.0",
+    "jest": "^29.7.0",
+    "opencode-ai": "^1.17.3"
   }
 }

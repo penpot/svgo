@@ -36,6 +36,7 @@ const optimize = (input, config) => {
 
   for (let i = 0; i < maxPassCount; i += 1) {
     info.multipassCount = i;
+    info.path = config.path;
     const ast = parseSvg(input, config.path);
     invokePlugins(ast, info, plugins, null, globalOverrides);
     output = stringifySvg(ast, config);
