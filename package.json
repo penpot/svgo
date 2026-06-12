@@ -1,6 +1,6 @@
 {
   "name": "@penpot/svgo",
-  "version": "v3.3",
+  "version": "3.3.0",
   "description": "SVG files optimizer",
   "license": "MIT",
   "homepage": "https://github.com/penpot/svgo",
